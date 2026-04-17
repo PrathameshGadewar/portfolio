@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { crypto } from 'v8'; // Using standard crypto for unique IDs
+
 import { randomUUID } from 'crypto';
 
 export async function POST(req: Request) {
