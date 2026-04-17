@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-import { randomUUID } from 'crypto';
 
 export async function POST(req: Request) {
   try {
@@ -18,7 +17,7 @@ export async function POST(req: Request) {
 
     // Create unique filename
     const ext = file.name.split('.').pop();
-    const fileName = `${randomUUID()}.${ext}`;
+    const fileName = `${crypto.randomUUID()}.${ext}`;
     
     // Ensure upload directory exists
     const uploadDir = join(process.cwd(), 'public', 'uploads');
