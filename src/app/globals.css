@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-brand-light: #fdfdfd;
+  --color-glass-bg: rgba(255, 255, 255, 0.4);
+  --color-glass-border: rgba(255, 255, 255, 0.6);
+  --color-text-primary: #1e1e1e;
+  --color-text-secondary: #6b7280;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Tailwind v4 Dark mode class strategy ─── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Smooth theme transition (background + border only, NOT color — avoids flash) ─── */
+*,
+*::before,
+*::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── LIGHT MODE body (default) ──────────────────────────────────────────── */
+@layer base {
+  body {
+    color: #1e1e1e;
+    background-color: #faf9ff;
+    background-image:
+      radial-gradient(at 0% 0%, hsla(242, 60%, 94%, 1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(271, 58%, 95%, 1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(305, 50%, 96%, 1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(210, 60%, 94%, 1) 0px, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── DARK MODE body ──────────────────────────────────────────────────────── */
+.dark body {
+  color: #e8e4f5;
+  background-color: #0d0b1a;
+  background-image:
+    radial-gradient(at 0% 0%, hsla(260, 60%, 8%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(240, 55%, 10%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(280, 50%, 8%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(220, 60%, 8%, 1) 0px, transparent 50%);
+}
+
+/* ─── Glassmorphism utilities ─────────────────────────────────────────────── */
+@layer utilities {
+  /* Light mode */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 30px rgb(0, 0, 0, 0.04);
+    border-radius: 2rem;
+  }
+
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 3px rgb(0, 0, 0, 0.05);
+    border-radius: 9999px;
+  }
+
+  /* Dark mode overrides */
+  .dark .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .dark .glass-nav {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    border-radius: 0.75rem;
+    background-color: #e5e7eb;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .dark .skeleton {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
