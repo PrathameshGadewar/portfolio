@@ -101,7 +101,7 @@ export default function ContactPage() {
                 <div className={`p-3 rounded-full ${item.color}`}>
                   <item.icon className="w-4 h-4" />
                 </div>
-                <div className="text-sm">
+                <div className="text-sm break-all">
                   <p className="text-gray-400 dark:text-white/30 text-xs font-semibold uppercase tracking-wider mb-0.5">
                     {item.label}
                   </p>

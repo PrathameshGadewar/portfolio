@@ -9,6 +9,9 @@ const ProfileSchema = new Schema({
   resumeLink: { type: String },
   github: { type: String },
   linkedin: { type: String },
+  twitter: { type: String },
+  instagram: { type: String },
+  discord: { type: String },
   email: { type: String },
   quote: { type: String },
 });

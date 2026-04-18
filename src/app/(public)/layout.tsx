@@ -9,7 +9,7 @@ export default function PublicLayout({
   return (
     <div className="relative min-h-screen">
       <TopNav />
-      <main className="pt-28 pb-32 px-6 max-w-4xl mx-auto">
+      <main className="pt-28 pb-32 px-6 max-w-6xl mx-auto">
         {children}
       </main>
       <BottomDock />

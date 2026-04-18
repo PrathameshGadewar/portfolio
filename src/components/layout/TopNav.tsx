@@ -25,7 +25,7 @@ export default function TopNav() {
   const isDark = theme === "dark";
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl z-50">
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-11/12 max-w-6xl z-50">
       <div className="glass-nav px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="font-bold text-2xl tracking-tighter text-gray-900 dark:text-white">
