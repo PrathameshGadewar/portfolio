@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 
 export default function TopNav() {
   const pathname = usePathname();
@@ -22,6 +23,8 @@ export default function TopNav() {
     if (title === "Certifications") title = "Credentials";
   }
 
+  if (!mounted) return null;
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border transition-colors">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -35,13 +38,25 @@ export default function TopNav() {
           {title}
         </div>
 
-        {/* Decorative Circle Indicators / Theme Toggle */}
-        <div className="flex items-center gap-2">
+        {/* Theme Toggle */}
+        <div className="flex items-center gap-4">
           <button 
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="w-2.5 h-2.5 rounded-full border border-zinc-400 dark:border-zinc-700 hover:bg-art-yellow" 
-          />
-          <div className="w-2.5 h-2.5 rounded-full border border-zinc-400 dark:border-zinc-700" />
+            className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition-all"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-art-yellow" />
+            ) : (
+              <Moon className="w-4 h-4 text-zinc-500" />
+            )}
+          </button>
+          
+          {/* Decorative Circles */}
+          <div className="flex gap-1.5 opacity-20">
+            <div className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+            <div className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+          </div>
         </div>
       </div>
       

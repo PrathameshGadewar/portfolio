@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Code, Layers, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface Skill {
   _id: string;
@@ -86,7 +87,18 @@ export default function SkillsPage() {
                <div className="grid grid-cols-3 gap-4">
                   {items.map((skill) => (
                     <div key={skill._id} className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl group hover:border-art-yellow hover:scale-[1.05] transition-all shadow-sm">
-                       <span className="text-2xl mb-3 grayscale group-hover:grayscale-0 transition-all">{skill.icon || "⚒️"}</span>
+                       <div className="w-10 h-10 mb-3 relative flex items-center justify-center">
+                          {skill.icon && (skill.icon.startsWith("http") || skill.icon.startsWith("/")) ? (
+                            <Image 
+                              src={skill.icon} 
+                              alt={skill.name} 
+                              fill 
+                              className="object-contain grayscale group-hover:grayscale-0 transition-all" 
+                            />
+                          ) : (
+                            <span className="text-2xl grayscale group-hover:grayscale-0 transition-all">{skill.icon || "⚒️"}</span>
+                          )}
+                       </div>
                        <span className="text-[9px] font-black uppercase text-zinc-500 group-hover:text-foreground text-center line-clamp-1 tracking-tighter">{skill.name}</span>
                     </div>
                   ))}
