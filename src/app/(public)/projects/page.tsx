@@ -82,17 +82,26 @@ export default function ProjectsPage() {
           </div>
         ) : (
           filtered.map((project, idx) => (
-            <div key={project._id} className="art-card group flex flex-col h-full bg-white dark:bg-zinc-900/50 border-border dark:border-zinc-800 hover:border-art-yellow">
-               {/* Icon Placeholder or actual icon */}
-               <div className="flex justify-center py-10 border-b border-border dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/20 rounded-t-2xl">
-                  <div className="w-16 h-16 bg-white dark:bg-zinc-800 rounded-2xl flex items-center justify-center text-4xl shadow-sm group-hover:scale-110 transition-transform">
-                     {project.category?.toLowerCase().includes("web") ? "🌐" : 
-                      project.category?.toLowerCase().includes("ai") ? "🤖" : 
-                      project.category?.toLowerCase().includes("android") ? "📱" : "📁"}
-                  </div>
+            <div key={project._id} className="art-card group flex flex-col h-full bg-white dark:bg-zinc-900/50 border-border dark:border-zinc-800 hover:border-art-yellow transition-all overflow-hidden p-0">
+               {/* Project Image or Icon */}
+               <div className="relative w-full aspect-video bg-zinc-50 dark:bg-zinc-900/40 border-b border-border dark:border-zinc-800 flex items-center justify-center overflow-hidden">
+                  {project.image ? (
+                    <Image 
+                      src={project.image} 
+                      alt={project.title} 
+                      fill 
+                      className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-white dark:bg-zinc-800 rounded-2xl flex items-center justify-center text-4xl shadow-sm group-hover:scale-110 transition-transform">
+                       {project.category?.toLowerCase().includes("web") ? "🌐" : 
+                        project.category?.toLowerCase().includes("ai") ? "🤖" : 
+                        project.category?.toLowerCase().includes("android") ? "📱" : "📁"}
+                    </div>
+                  )}
                </div>
 
-               <div className="flex-1 px-4 pt-6">
+               <div className="flex-1 p-8 pb-4">
                   <div className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
                      {project.category || "GENERAL"} {project.tags[0] && ` / ${project.tags[0]}`}
                   </div>
