@@ -133,29 +133,30 @@ export default function HomePage() {
         {/* Right Column: Profile Image Card */}
         <div className="lg:col-span-5 relative hidden lg:block h-full min-h-[500px]">
            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full max-w-[400px] aspect-[4/5]">
-                 <div className="relative w-full h-full bg-[#111c18] overflow-hidden rounded-[2.5rem] shadow-2xl transition-transform hover:scale-[1.02] z-10 border border-white/5">
+              <div className="relative w-full max-w-[420px] aspect-[4/5]">
+                 <div className="relative w-full h-full bg-[#E2E8E4] dark:bg-[#0F1614] overflow-hidden rounded-[3.5rem] shadow-2xl transition-transform hover:scale-[1.01] z-10 border border-black/5 dark:border-white/5">
                     {profileImage ? (
                       <Image 
                         src={profileImage} 
                         alt={name} 
                         fill 
-                        className="object-cover opacity-90" 
-                        priority 
+                        className="object-contain p-4 transition-transform duration-500 scale-[1.1] hover:scale-[1.15]"
+                        priority
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-8xl font-black text-white/10 uppercase tracking-tighter">PG</div>
+                      <div className="w-full h-full flex items-center justify-center text-4xl">👋</div>
                     )}
                     
-                    {/* Overlay badge */}
-                    <div className="absolute top-8 right-8 art-badge bg-white/10 backdrop-blur-md border-white/20 text-white border-none py-2 px-6">
-                        Available<br/>for work & collabs
+                    {/* Decorative Floating Status */}
+                    <div className="absolute top-8 right-8 bg-white/80 dark:bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 shadow-xl z-20">
+                       <div className="text-[9px] font-black uppercase tracking-widest text-foreground flex items-center gap-2">
+                          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> Available
+                       </div>
                     </div>
                  </div>
-
-                 {/* Decorative background blobs */}
-                 <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-art-blue/30 dark:bg-blue-600/20 blur-3xl -z-10 rounded-full" />
-                 <div className="absolute -top-10 -left-10 w-48 h-48 bg-art-yellow/20 blur-3xl -z-10 rounded-full" />
+                 
+                 {/* Background accent */}
+                 <div className="absolute -top-6 -right-6 w-full h-full border-2 border-art-yellow rounded-[4rem] -z-10 opacity-20" />
               </div>
            </div>
         </div>
