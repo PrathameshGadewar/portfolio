@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { User, Briefcase, Zap, Code, Mail, GraduationCap } from "lucide-react";
+import { User, Briefcase, Zap, Code, Mail, GraduationCap, Award } from "lucide-react";
 import { motion } from "framer-motion";
 
 const dockItems = [
@@ -10,6 +10,7 @@ const dockItems = [
   { name: "Projects", href: "/projects", icon: Briefcase },
   { name: "Exp", href: "/experience", icon: Briefcase },
   { name: "Edu", href: "/education", icon: GraduationCap },
+  { name: "Certs", href: "/certifications", icon: Award },
   { name: "Skills", href: "/skills", icon: Code },
   { name: "Services", href: "/services", icon: Zap },
   { name: "Contact", href: "/contact", icon: Mail },
