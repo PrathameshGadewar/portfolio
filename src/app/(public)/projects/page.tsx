@@ -101,14 +101,21 @@ export default function ProjectsPage() {
                   )}
                </div>
 
-               <div className="flex-1 p-8 pb-4">
+               <div className="flex-1 p-8 pb-4 relative overflow-hidden">
                   <div className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
                      {project.category || "GENERAL"} {project.tags[0] && ` / ${project.tags[0]}`}
                   </div>
                   <h3 className="text-xl font-bold text-foreground mb-3 leading-tight group-hover:text-blue-500 transition-colors uppercase tracking-tight">{project.title}</h3>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium uppercase mb-16">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium uppercase mb-8 line-clamp-2 transition-all group-hover:opacity-0">
                     {project.description}
                   </p>
+
+                  <div className="absolute inset-0 bg-white/95 dark:bg-zinc-950/95 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col justify-center z-20">
+                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-4">Detailed Description</p>
+                    <p className="text-[11px] text-foreground leading-relaxed font-extrabold uppercase">
+                      {project.description}
+                    </p>
+                  </div>
                </div>
 
                <div className="flex justify-start px-2 py-2">
