@@ -62,16 +62,25 @@ export default function TopNav() {
       
       {/* Marquee/Ticker like line if on home */}
       {pathname === "/" && (
-        <div className="bg-foreground py-1.5 overflow-hidden whitespace-nowrap">
-          <div className="flex gap-12 animate-marquee text-[10px] font-black uppercase text-background">
-            {[...Array(10)].map((_, i) => (
-              <span key={i} className="flex gap-12">
-                <span>OPEN TO WORK</span>
-                <span className="opacity-30">•</span>
-                <span>FULL STACK</span>
-                <span className="opacity-30">•</span>
-                <span>AI/ML</span>
-              </span>
+        <div className="bg-foreground py-2 overflow-hidden whitespace-nowrap">
+          <div className="flex gap-8 animate-marquee text-[10px] font-black uppercase text-background">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="flex gap-8 items-center">
+                 <span>Engineering</span>
+                 <span className="text-art-yellow">✦</span>
+                 <span>AI Development</span>
+                 <span className="text-art-yellow">✦</span>
+                 <span>Brand Identity</span>
+                 <span className="text-art-yellow">✦</span>
+                 <span>Full-Stack Dev</span>
+                 <span className="text-art-yellow">✦</span>
+                 <span className="whitespace-pre">Co-Founder @ UNIMIGO</span>
+                 <span className="text-art-yellow">✦</span>
+                 <span>Web Design</span>
+                 <span className="text-art-yellow">✦</span>
+                 <span>ML Engineering</span>
+                 <span className="text-art-yellow">✦</span>
+              </div>
             ))}
           </div>
         </div>
