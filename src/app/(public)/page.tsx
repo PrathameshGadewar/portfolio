@@ -46,8 +46,10 @@ const SectionLabel = ({ children, color = "blue" }: { children: React.ReactNode;
 const cards = [
   { title: "Credentials", desc: "My journey, professional background.", href: "/credentials", icon: User, label: "MORE ABOUT ME", color: "yellow" },
   { title: "Projects", desc: "A collection of my featured work and studies.", href: "/projects", icon: Briefcase, label: "SHOWCASE", color: "blue" },
-  { title: "Services", desc: "Solutions I help build and scale.", href: "/services", icon: Sparkles, label: "WHAT I DO", color: "yellow" },
-  { title: "Experience", desc: "Places I've worked, impact I made.", href: "/experience", icon: GraduationCap, label: "MY JOURNEY", color: "blue" },
+  { title: "Experience", desc: "Places I've worked, impact I made.", href: "/experience", icon: Briefcase, label: "MY JOURNEY", color: "yellow" },
+  { title: "Education", desc: "My academic background and milestones.", href: "/education", icon: GraduationCap, label: "ACADEMICS", color: "blue" },
+  { title: "Certifications", desc: "Professional certifications and achievements.", href: "/certifications", icon: Sparkles, label: "AWARDS", color: "yellow" },
+  { title: "Services", desc: "Solutions I help build and scale.", href: "/services", icon: Sparkles, label: "WHAT I DO", color: "blue" },
   { title: "Skills", desc: "Technologies and superpowers I use.", href: "/skills", icon: Code, label: "EXPERTISE", color: "yellow" },
   { title: "Contact", desc: "Let's build something great together.", href: "/contact", icon: Mail, label: "GET IN TOUCH", color: "blue" },
 ];
@@ -67,8 +69,8 @@ export default function HomePage() {
     ])
       .then(([profiles, edu, exp]) => {
         if (Array.isArray(profiles) && profiles.length > 0) setProfile(profiles[0]);
-        if (Array.isArray(edu)) setEducation(edu.slice(0, 2));
-        if (Array.isArray(exp)) setExperience(exp.slice(0, 2));
+        if (Array.isArray(edu)) setEducation(edu.slice(0, 3));
+        if (Array.isArray(exp)) setExperience(exp.slice(0, 3));
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -157,74 +159,76 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Education & Experience Section */}
+      {/* Experience Section */}
       <section className="mb-32 px-6 lg:px-0">
         <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
            <div>
-              <div className="art-badge-yellow text-[9px] px-3 py-1 mb-4 rounded-sm inline-block">PATHWAY</div>
+              <div className="art-badge-yellow text-[9px] px-3 py-1 mb-4 rounded-sm inline-block uppercase">Professional</div>
               <h2 className="text-4xl lg:text-5xl font-black text-foreground uppercase leading-[0.9] tracking-tighter">
-                 Education &<br/>
+                 Work<br/>
                  <span className="text-zinc-400 dark:text-zinc-600">Experience</span>
               </h2>
            </div>
-           <Link href="/credentials" className="group text-[10px] font-black uppercase underline decoration-2 underline-offset-4 hover:text-art-blue transition-colors flex items-center gap-2">
-              VIEW FULL CREDENTIALS <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+           <Link href="/experience" className="group text-[10px] font-black uppercase underline decoration-2 underline-offset-4 hover:text-art-blue transition-colors flex items-center gap-2">
+              VIEW DETAILED EXPERIENCE <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
            </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-           {/* Experience column */}
-           <div className="space-y-6">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
-                 <Briefcase className="w-4 h-4 text-art-blue" /> Professional Journey
-              </h3>
-              <div className="space-y-4">
-                 {experience.length > 0 ? experience.map((exp) => (
-                    <div key={exp._id} className="art-card bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-8 rounded-[2.5rem] hover:border-art-blue transition-all group">
-                       <div className="flex justify-between items-start mb-4">
-                          <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{exp.duration}</span>
-                          <div className="w-2 h-2 rounded-full bg-art-blue opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                       </div>
-                       <h4 className="text-2xl font-black text-foreground mb-1 tracking-tight">{exp.role}</h4>
-                       <p className="text-sm font-bold text-art-blue uppercase tracking-widest">{exp.company}</p>
-                    </div>
-                 )) : (
-                    <div className="p-8 border-2 border-dashed border-border rounded-[2.5rem] text-center text-zinc-400 text-xs font-bold uppercase">No experience logged</div>
-                 )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+           {experience.length > 0 ? experience.map((exp) => (
+              <div key={exp._id} className="art-card bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-8 rounded-[2.5rem] hover:border-art-blue transition-all group">
+                 <div className="flex justify-between items-start mb-4">
+                    <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{exp.duration}</span>
+                    <Briefcase className="w-4 h-4 text-art-blue group-hover:scale-110 transition-transform" />
+                 </div>
+                 <h4 className="text-2xl font-black text-foreground mb-1 tracking-tight">{exp.role}</h4>
+                 <p className="text-sm font-bold text-art-blue uppercase tracking-widest">{exp.company}</p>
               </div>
-           </div>
+           )) : (
+              <div className="col-span-full p-12 border-2 border-dashed border-border rounded-[2.5rem] text-center text-zinc-400 text-xs font-bold uppercase">No experience items logged</div>
+           )}
+        </div>
+      </section>
 
-           {/* Education column */}
-           <div className="space-y-6">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
-                 <GraduationCap className="w-4 h-4 text-art-yellow" /> Academic Pathway
-              </h3>
-              <div className="space-y-4">
-                 {education.length > 0 ? education.map((edu) => (
-                    <div key={edu._id} className="art-card bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-8 rounded-[2.5rem] hover:border-art-yellow transition-all group">
-                        <div className="flex justify-between items-start mb-4">
-                          <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{edu.startYear} — {edu.endYear}</span>
-                          <div className="w-2 h-2 rounded-full bg-art-yellow opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_8px_rgba(253,224,71,0.5)]" />
-                       </div>
-                       <h4 className="text-2xl font-black text-foreground mb-1 tracking-tight">{edu.degree}</h4>
-                       <p className="text-sm font-bold text-art-yellow uppercase tracking-widest">{edu.institution}</p>
-                    </div>
-                 )) : (
-                    <div className="p-8 border-2 border-dashed border-border rounded-[2.5rem] text-center text-zinc-400 text-xs font-bold uppercase">No education logged</div>
-                 )}
-              </div>
+      {/* Education Section */}
+      <section className="mb-32 px-6 lg:px-0">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
+           <div>
+              <div className="art-badge text-[9px] px-3 py-1 mb-4 rounded-sm inline-block uppercase bg-blue-500 text-white border-none">Academic</div>
+              <h2 className="text-4xl lg:text-5xl font-black text-foreground uppercase leading-[0.9] tracking-tighter">
+                 Educational<br/>
+                 <span className="text-zinc-400 dark:text-zinc-600">Pathway</span>
+              </h2>
            </div>
+           <Link href="/education" className="group text-[10px] font-black uppercase underline decoration-2 underline-offset-4 hover:text-art-yellow transition-colors flex items-center gap-2">
+              VIEW ALL ACADEMICS <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+           </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+           {education.length > 0 ? education.map((edu) => (
+              <div key={edu._id} className="art-card bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-8 rounded-[2.5rem] hover:border-art-yellow transition-all group">
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{edu.startYear} — {edu.endYear}</span>
+                    <GraduationCap className="w-4 h-4 text-art-yellow group-hover:scale-110 transition-transform" />
+                 </div>
+                 <h4 className="text-2xl font-black text-foreground mb-1 tracking-tight">{edu.degree}</h4>
+                 <p className="text-sm font-bold text-art-yellow uppercase tracking-widest">{edu.institution}</p>
+              </div>
+           )) : (
+              <div className="col-span-full p-12 border-2 border-dashed border-border rounded-[2.5rem] text-center text-zinc-400 text-xs font-bold uppercase">No education records logged</div>
+           )}
         </div>
       </section>
 
       {/* Navigation Cards Grid */}
       <section className="mb-40 px-6 lg:px-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cards.map((card, idx) => (
             <Link 
               key={card.title} 
               href={card.href}
-              className={`art-card group relative overflow-hidden flex flex-col justify-between h-[280px] p-8 rounded-[3rem] border-border dark:border-zinc-800 hover:border-art-blue dark:hover:border-blue-500 transition-all hover:scale-[1.02] active:scale-[0.98] ${idx === 1 || idx === 4 ? 'lg:translate-y-4' : ''}`}
+              className={`art-card group relative overflow-hidden flex flex-col justify-between h-[280px] p-8 rounded-[3rem] border-border dark:border-zinc-800 hover:border-art-blue dark:hover:border-blue-500 transition-all hover:scale-[1.02] active:scale-[0.98]`}
             >
               <div className="flex justify-between items-start relative z-10">
                 <div className={`text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-sm shadow-sm ${card.color === 'yellow' ? 'bg-art-yellow text-black' : 'bg-art-blue text-white'}`}>
