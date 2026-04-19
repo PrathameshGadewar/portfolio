@@ -216,6 +216,47 @@ export default function HomePage() {
            </div>
         </div>
       </section>
+
+      {/* Navigation Cards Grid */}
+      <section className="mb-40 px-6 lg:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cards.map((card, idx) => (
+            <Link 
+              key={card.title} 
+              href={card.href}
+              className={`art-card group relative overflow-hidden flex flex-col justify-between h-[280px] p-8 rounded-[3rem] border-border dark:border-zinc-800 hover:border-art-blue dark:hover:border-blue-500 transition-all hover:scale-[1.02] active:scale-[0.98] ${idx === 1 || idx === 4 ? 'lg:translate-y-4' : ''}`}
+            >
+              <div className="flex justify-between items-start relative z-10">
+                <div className={`text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-sm shadow-sm ${card.color === 'yellow' ? 'bg-art-yellow text-black' : 'bg-art-blue text-white'}`}>
+                  {card.label}
+                </div>
+                <div className="w-10 h-10 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center transition-colors group-hover:bg-foreground group-hover:text-background">
+                  <card.icon className="w-5 h-5 transition-transform group-hover:scale-110" />
+                </div>
+              </div>
+
+              <div className="relative z-10">
+                <h3 className="text-3xl font-black text-foreground mb-2 uppercase tracking-tighter transition-all group-hover:translate-x-1">
+                  {card.title}
+                </h3>
+                <p className="text-zinc-500 text-[11px] font-bold uppercase tracking-widest opacity-80 group-hover:opacity-100 transition-opacity">
+                  {card.desc}
+                </p>
+              </div>
+
+              {/* Decorative Arrow */}
+              <div className="absolute bottom-8 right-8 w-12 h-12 rounded-full bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all shadow-xl z-20">
+                <ArrowUpRight className="w-5 h-5 text-foreground" />
+              </div>
+
+              {/* Background Accent Gradient */}
+              <div className={`absolute -bottom-10 -right-10 w-40 h-40 blur-3xl opacity-0 group-hover:opacity-20 transition-opacity rounded-full ${card.color === 'yellow' ? 'bg-art-yellow' : 'bg-art-blue'}`} />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} resumeUrl={profile?.resumeLink} />
     </div>
   );
 }
