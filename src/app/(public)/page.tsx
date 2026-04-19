@@ -83,10 +83,36 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Hero Section */}
-      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 lg:gap-20 items-center min-h-[70vh] mb-32 pt-10 md:pt-20">
-        {/* Left Column: Text Content */}
-        <div className="lg:col-span-7 order-2 lg:order-1">
-           <div className="mb-8">
+      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 lg:gap-20 items-center justify-center min-h-[70vh] mb-32 pt-24 md:pt-32">
+        {/* Profile Image - Shown First on Mobile */}
+        <div className="lg:col-span-5 w-full order-1 lg:order-2 flex justify-center">
+            <div className="relative w-full max-w-[400px] aspect-[4/5]">
+               <div className="relative w-full h-full bg-[#1C1C1E] dark:bg-[#F5F0E8] overflow-hidden rounded-[3.5rem] shadow-2xl transition-transform hover:scale-[1.01] z-10 border border-white/5 dark:border-black/5">
+                  {profileImage ? (
+                    <Image 
+                      src={profileImage} 
+                      alt={name} 
+                      fill 
+                      className="object-contain p-4 transition-transform duration-500 scale-[1.1] hover:scale-[1.15]"
+                      priority
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-4xl">👋</div>
+                  )}
+                  
+                  <div className="absolute top-8 right-8 bg-white/80 dark:bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 shadow-xl z-20">
+                     <div className="text-[9px] font-black uppercase tracking-widest text-foreground flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> Available
+                     </div>
+                  </div>
+               </div>
+               <div className="absolute -top-6 -right-6 w-full h-full border-2 border-art-yellow rounded-[4rem] -z-10 opacity-20" />
+            </div>
+        </div>
+
+        {/* Text Content */}
+        <div className="lg:col-span-7 order-2 lg:order-1 text-center lg:text-left">
+           <div className="mb-8 flex justify-center lg:justify-start">
               <div className="art-badge">
                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
                  Graphic Designer
@@ -97,70 +123,38 @@ export default function HomePage() {
               <span className="block text-foreground mb-2 uppercase leading-[0.9] tracking-tighter transition-all">
                 Hi everyone,
               </span>
-              <span className="block text-[#D0DFF2] mb-4 uppercase leading-[0.9] tracking-tighter transition-all">
+              <span className="block text-[#4A6FA5] dark:text-[#D0DFF2] mb-4 uppercase leading-[0.9] tracking-tighter transition-all">
                 I'm {profile?.name || "Prathamesh"}
               </span>
            </h1>
            
-           <p className="text-xl text-zinc-500 dark:text-zinc-400 max-w-2xl mb-12 leading-relaxed font-medium">
+           <p className="text-xl text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto lg:mx-0 mb-12 leading-relaxed font-medium">
               {bio}
            </p>
-           
-           <div className="flex flex-wrap gap-4 mb-20">
+
+           <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-20">
               <Link href="/contact" className="btn-primary">Get In Touch <ArrowUpRight className="ml-2 w-4 h-4 inline" /></Link>
               <button onClick={() => setIsResumeOpen(true)} className="btn-outline flex items-center gap-2">
                  Download CV <span className="text-lg">↓</span>
               </button>
            </div>
            
-           <div className="flex items-center gap-6">
+           <div className="flex flex-col items-center lg:items-start gap-4">
               <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Find me on:</span>
               <div className="flex gap-3">
                  {profile?.linkedin && (
-                   <a href={profile.linkedin} target="_blank" className="w-9 h-9 rounded-full border border-border dark:border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-foreground hover:bg-black/5 transition-all">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                   <a href={profile.linkedin} target="_blank" className="w-10 h-10 rounded-full border border-border dark:border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-foreground hover:bg-black/5 transition-all">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                    </a>
                  )}
                  {profile?.github && (
-                   <a href={profile.github} target="_blank" className="w-9 h-9 rounded-full border border-border dark:border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-foreground hover:bg-black/5 transition-all">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                   <a href={profile.github} target="_blank" className="w-10 h-10 rounded-full border border-border dark:border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-foreground hover:bg-black/5 transition-all">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                    </a>
                  )}
               </div>
            </div>
         </div>
-
-        {/* Right Column: Profile Image Card */}
-        <div className="lg:col-span-5 relative block order-1 lg:order-2 w-full h-full min-h-[400px] lg:min-h-[500px]">
-           <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full max-w-[420px] aspect-[4/5]">
-                 <div className="relative w-full h-full bg-[#1C1C1E] dark:bg-[#F5F0E8] overflow-hidden rounded-[3.5rem] shadow-2xl transition-transform hover:scale-[1.01] z-10 border border-white/5 dark:border-black/5">
-                    {profileImage ? (
-                      <Image 
-                        src={profileImage} 
-                        alt={name} 
-                        fill 
-                        className="object-contain p-4 transition-transform duration-500 scale-[1.1] hover:scale-[1.15]"
-                        priority
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-4xl">👋</div>
-                    )}
-                    
-                    {/* Decorative Floating Status */}
-                    <div className="absolute top-8 right-8 bg-white/80 dark:bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 shadow-xl z-20">
-                       <div className="text-[9px] font-black uppercase tracking-widest text-foreground flex items-center gap-2">
-                          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> Available
-                       </div>
-                    </div>
-                 </div>
-                 
-                 {/* Background accent */}
-                 <div className="absolute -top-6 -right-6 w-full h-full border-2 border-art-yellow rounded-[4rem] -z-10 opacity-20" />
-              </div>
-           </div>
-        </div>
-      </div>
 
       {/* Education & Experience Section */}
       <section className="mb-32 px-6 lg:px-0">
