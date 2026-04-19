@@ -61,8 +61,9 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Hero Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[60vh]">
-        <div className="lg:col-span-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center min-h-[70vh] mb-32">
+        {/* Left Column: Text Content */}
+        <div className="lg:col-span-7">
            <div className="mb-8">
               <div className="art-badge">
                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
@@ -102,25 +103,36 @@ export default function HomePage() {
               </div>
            </div>
         </div>
-      </div>
 
-      {/* Floating Image with light mode accents */}
-      <div className="fixed top-1/2 right-[10%] -translate-y-1/2 w-[380px] aspect-[4/5] -z-10 pointer-events-none hidden lg:block">
-         <div className="relative w-full h-full bg-[#111c18] overflow-hidden rounded-[2rem] shadow-2xl transition-transform hover:scale-[1.02]">
-            {profileImage ? (
-              <Image src={profileImage} alt={name} fill className="object-cover opacity-80" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-8xl font-black text-white/10 uppercase tracking-tighter">PG</div>
-            )}
-            
-            {/* Overlay indicators */}
-            <div className="absolute top-8 right-8 art-badge bg-white/10 backdrop-blur-md border-white/20 text-white border-none py-2 px-6">
-                Available<br/>for work & collabs
-            </div>
-         </div>
-         
-         {/* Decorative blobbies like in screenshot */}
-         <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-art-blue/30 blur-3xl -z-20 rounded-full" />
+        {/* Right Column: Profile Image Card */}
+        <div className="lg:col-span-5 relative hidden lg:block h-full min-h-[500px]">
+           <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-full max-w-[400px] aspect-[4/5]">
+                 <div className="relative w-full h-full bg-[#111c18] overflow-hidden rounded-[2.5rem] shadow-2xl transition-transform hover:scale-[1.02] z-10 border border-white/5">
+                    {profileImage ? (
+                      <Image 
+                        src={profileImage} 
+                        alt={name} 
+                        fill 
+                        className="object-cover opacity-90" 
+                        priority 
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-8xl font-black text-white/10 uppercase tracking-tighter">PG</div>
+                    )}
+                    
+                    {/* Overlay badge */}
+                    <div className="absolute top-8 right-8 art-badge bg-white/10 backdrop-blur-md border-white/20 text-white border-none py-2 px-6">
+                        Available<br/>for work & collabs
+                    </div>
+                 </div>
+
+                 {/* Decorative background blobs */}
+                 <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-art-blue/30 dark:bg-blue-600/20 blur-3xl -z-10 rounded-full" />
+                 <div className="absolute -top-10 -left-10 w-48 h-48 bg-art-yellow/20 blur-3xl -z-10 rounded-full" />
+              </div>
+           </div>
+        </div>
       </div>
     </div>
   );
