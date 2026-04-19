@@ -3,15 +3,41 @@
 @theme {
   --color-art-yellow: #fde047;
   --color-art-blue: #3b82f6;
-  --color-art-dark: #000000;
-  --color-art-card: #111111;
-  --color-art-border: #222222;
-  --color-art-bg: #000000;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #a1a1aa;
+  --color-art-dark: var(--foreground);
+  --color-art-card: var(--card);
+  --color-art-border: var(--border);
+  --color-art-bg: var(--background);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-serif), ui-serif, Georgia, serif;
+}
+
+:root {
+  --background: #f8f7f2;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --border: #e2e1dc;
+  
+  --color-art-yellow: #fde047;
+  --color-art-blue: #d1dff6;
+  --color-art-dark: #0a0a0a;
+  --color-art-card: #ffffff;
+  --color-art-border: #e2e1dc;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --border: #1a1a1a;
+  
+  --color-art-yellow: #fde047;
+  --color-art-blue: #2563eb;
+  --color-art-dark: #ffffff;
+  --color-art-card: #0a0a0a;
+  --color-art-border: #1a1a1a;
 }
 
 /* ─── Tailwind v4 Dark mode class strategy ─── */
@@ -27,8 +53,8 @@
 /* ─── Base Styles ──────────────────────────────────────────── */
 @layer base {
   body {
-    color: var(--color-text-primary);
-    background-color: var(--color-art-bg);
+    background-color: var(--background);
+    color: var(--foreground);
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -40,29 +66,32 @@
   }
 }
 
-/* ─── Dark Mode Specifics ──────────────────────────────────────────────────────── */
-.dark body {
-  color: #ffffff;
-  background-color: #000000;
-}
-
 /* ─── Minimalist UI Utilities ────────────────────────────────────────── */
 @layer utilities {
   .art-card {
-    background: #111111;
-    border: 1px solid #222222;
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 1rem;
     padding: 1.5rem;
+    color: var(--card-foreground);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .art-card:hover {
-    border-color: #444444;
-    background: #161616;
+    border-color: var(--color-art-yellow);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+  }
+
+  .dark .art-card:hover {
+    box-shadow: 0 10px 30px -10px rgba(253, 224, 71, 0.1);
   }
 
   .art-badge {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black border border-zinc-800 text-zinc-400;
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white border border-border text-zinc-500;
+  }
+  
+  .dark .art-badge {
+    @apply bg-zinc-900 border-zinc-800 text-zinc-400;
   }
 
   .art-badge-yellow {
@@ -70,15 +99,19 @@
   }
 
   .btn-primary {
-    @apply bg-white text-black px-6 py-2 rounded-lg font-bold transition-all hover:bg-zinc-200;
+    @apply bg-black text-white px-6 py-2 rounded-lg font-bold transition-all hover:bg-zinc-800;
+  }
+  
+  .dark .btn-primary {
+    @apply bg-white text-black hover:bg-zinc-200;
   }
 
   .btn-outline {
-    @apply bg-transparent text-white border border-zinc-700 px-6 py-2 rounded-lg font-bold transition-all hover:bg-white/5 hover:border-white;
+    @apply bg-transparent text-foreground border border-border px-6 py-2 rounded-lg font-bold transition-all hover:bg-black/5;
   }
-
-  .nav-fixed-bottom {
-    @apply fixed bottom-8 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-xl border border-zinc-800 rounded-2xl px-8 py-4 flex items-center gap-12 z-50;
+  
+  .dark .btn-outline {
+    @apply border-zinc-700 text-white hover:bg-white/5 hover:border-white;
   }
 
   .editorial-title {
@@ -86,6 +119,7 @@
     line-height: 1.1;
     font-weight: 900;
     text-transform: uppercase;
+    color: var(--foreground);
   }
 
   .section-label {
@@ -94,11 +128,11 @@
 
   /* Progress bar styling */
   .progress-container {
-    @apply h-1 w-full bg-zinc-800 rounded-full overflow-hidden;
+    @apply h-1 w-full bg-border rounded-full overflow-hidden;
   }
 
   .progress-bar {
-    @apply h-full bg-white rounded-full transition-all duration-1000;
+    @apply h-full bg-foreground rounded-full transition-all duration-1000;
   }
 
   .progress-bar-yellow {
@@ -117,22 +151,21 @@
   animation: marquee 30s linear infinite;
 }
 
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #222222;
+  background: var(--border);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333333;
+  background: var(--color-art-yellow);
 }
 

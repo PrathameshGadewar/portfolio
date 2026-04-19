@@ -44,41 +44,42 @@ export default function ServicesPage() {
   return (
     <div className="max-w-7xl mx-auto px-6">
       <div className="mb-12">
-        <div className="section-label">OFFERINGS</div>
-        <h1 className="editorial-title text-white mb-8">
-          WHAT I<br />
-          <span className="text-zinc-500">OFFER</span>
+        <div className="art-badge-yellow text-[9px] px-3 py-1 mb-6 rounded-sm inline-block">CAPABILITIES</div>
+        <h1 className="editorial-title mb-8">
+          <span className="block text-foreground">WHAT</span>
+          <span className="block text-art-blue dark:text-blue-500">I DO</span>
         </h1>
+        <p className="text-zinc-400 font-bold text-[10px] uppercase tracking-[0.2em] italic">"Tailored solutions for a digital-first world."</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-32">
         {loading ? (
-          [1, 2, 3, 4].map((i) => (
-            <div key={i} className="art-card h-80 animate-pulse bg-zinc-900" />
+          [1, 2].map((i) => (
+            <div key={i} className="art-card h-80 animate-pulse bg-zinc-50" />
           ))
         ) : (
           services.map((service, idx) => {
             const IconEl = ICON_MAP[service.icon?.toLowerCase() || ""] || DEFAULT_ICONS[idx % DEFAULT_ICONS.length];
             return (
-              <div key={service._id} className="art-card group bg-[#0a0a0a] border-zinc-800/50 hover:border-zinc-700">
-                 <div className="flex justify-between items-start mb-8">
-                    <span className="text-sm font-black text-zinc-800 group-hover:text-zinc-600 transition-colors">0{idx + 1}</span>
+              <div key={service._id} className="art-card group bg-white/50 dark:bg-zinc-900/50 border-border dark:border-zinc-800 hover:border-zinc-400 transition-all rounded-[2rem] p-10">
+                 <div className="flex justify-between items-start mb-10">
+                    <span className="text-xs font-bold text-zinc-300 dark:text-zinc-700">0{idx + 1} /</span>
                  </div>
                  
-                 <div className="mb-8">
-                    <div className="w-14 h-14 bg-zinc-900 rounded-xl flex items-center justify-center border border-zinc-800 group-hover:border-zinc-600 group-hover:bg-zinc-800 transition-all shadow-sm">
-                       <IconEl className="w-6 h-6 text-art-blue" />
+                 <div className="mb-10">
+                    <div className="w-14 h-14 bg-zinc-50 dark:bg-zinc-800 rounded-2xl flex items-center justify-center border border-border dark:border-zinc-700 group-hover:bg-art-blue/10 transition-all">
+                       <IconEl className="w-6 h-6 text-blue-500" />
                     </div>
                  </div>
 
-                 <h3 className="text-2xl font-black text-white mb-4 group-hover:text-art-yellow transition-colors">{service.title}</h3>
-                 <p className="text-sm text-zinc-500 leading-relaxed uppercase mb-10 max-w-sm">
+                 <h3 className="text-3xl font-black text-foreground mb-6 group-hover:text-blue-600 transition-colors tracking-tight">{service.title}</h3>
+                 <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium mb-12 max-w-sm">
                     {service.description}
                  </p>
 
                  <div className="flex flex-wrap gap-2 mt-auto">
-                    {["React", "AI", "Modern Tooling"].map((tag) => (
-                       <span key={tag} className="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-bold text-zinc-400 uppercase tracking-tight">
+                    {["Python", "React", "AI", "Cloud"].map((tag) => (
+                       <span key={tag} className="px-4 py-1.5 rounded-full border border-border dark:border-zinc-800 text-[10px] font-bold text-zinc-400 uppercase tracking-tight">
                          {tag}
                        </span>
                     ))}

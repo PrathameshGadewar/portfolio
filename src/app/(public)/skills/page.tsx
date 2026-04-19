@@ -64,27 +64,30 @@ export default function SkillsPage() {
   return (
     <div className="max-w-7xl mx-auto px-6">
       <div className="mb-12">
-        <div className="section-label">COMPETENCIES</div>
-        <h1 className="editorial-title text-white mb-8">
-          CREATIVE<br />
-          <span className="text-zinc-500">TOOLKIT</span>
+        <div className="art-badge-yellow text-[9px] px-3 py-1 mb-6 rounded-sm inline-block">COMPETENCIES</div>
+        <h1 className="editorial-title mb-8">
+          <span className="block text-foreground">CREATIVE</span>
+          <span className="block text-art-blue dark:text-blue-500">TOOLKIT</span>
         </h1>
+        <p className="text-zinc-400 font-bold text-[10px] uppercase tracking-[0.2em] italic">"The tools of the craft, mastered for perfection."</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
         {loading ? (
-          [1, 2, 3].map(i => <div key={i} className="art-card h-64 animate-pulse bg-zinc-900" />)
+          [1, 2].map(i => <div key={i} className="art-card h-64 animate-pulse bg-zinc-50" />)
         ) : (
           Object.entries(grouped).map(([category, items]) => (
-            <div key={category} className="art-card bg-[#0a0a0a] border-zinc-800/50">
-               <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-6 border-b border-zinc-800 pb-2">
+            <div key={category} className="art-card bg-white/30 dark:bg-zinc-900/30 border-border dark:border-zinc-800 p-8 rounded-[2rem]">
+               <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-4">
+                  <span className="w-8 h-px bg-border" />
                   {category}
+                  <span className="flex-1 h-px bg-border" />
                </h2>
-               <div className="grid grid-cols-3 gap-3">
+               <div className="grid grid-cols-3 gap-4">
                   {items.map((skill) => (
-                    <div key={skill._id} className="flex flex-col items-center justify-center p-3 bg-zinc-900/50 rounded-xl border border-zinc-800/50 group hover:border-art-yellow transition-all">
-                       <span className="text-2xl mb-2 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all">{skill.icon || "⚒️"}</span>
-                       <span className="text-[9px] font-black uppercase text-zinc-400 group-hover:text-white text-center line-clamp-1">{skill.name}</span>
+                    <div key={skill._id} className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl group hover:border-art-yellow hover:scale-[1.05] transition-all shadow-sm">
+                       <span className="text-2xl mb-3 grayscale group-hover:grayscale-0 transition-all">{skill.icon || "⚒️"}</span>
+                       <span className="text-[9px] font-black uppercase text-zinc-500 group-hover:text-foreground text-center line-clamp-1 tracking-tighter">{skill.name}</span>
                     </div>
                   ))}
                </div>
@@ -94,22 +97,24 @@ export default function SkillsPage() {
       </div>
 
       {/* Proficiency Levels */}
-      <div className="art-card bg-[#0a0a0a] border-zinc-800/50 p-10">
-         <h2 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500 mb-10">Proficiency Levels</h2>
-         <div className="space-y-10">
+      <div className="art-card bg-white/50 dark:bg-zinc-900/50 border-border dark:border-zinc-800 p-12 rounded-[2.5rem] mb-32 shadow-sm">
+         <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-12">Proficiency Levels</h2>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
             {PROFICIENCY.map((skill) => (
-               <div key={skill.name} className="flex items-center gap-8">
-                  <span className="w-24 text-xs font-black text-white uppercase tracking-tighter">{skill.name}</span>
-                  <div className="flex-1 h-1 bg-zinc-800 rounded-full overflow-hidden">
+               <div key={skill.name} className="flex flex-col gap-4">
+                  <div className="flex justify-between items-end">
+                    <span className="text-[11px] font-black text-foreground uppercase tracking-widest">{skill.name}</span>
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase">{skill.level}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                      <motion.div 
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
-                        className={`h-full ${skill.color}`} 
+                        className={`h-full ${skill.color === 'bg-art-yellow' ? 'bg-art-yellow' : 'bg-foreground dark:bg-white'}`} 
                      />
                   </div>
-                  <span className="w-10 text-[10px] font-black text-zinc-500 text-right uppercase tracking-tighter">{skill.level}%</span>
                </div>
             ))}
          </div>

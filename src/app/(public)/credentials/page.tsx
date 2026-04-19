@@ -75,52 +75,47 @@ export default function CredentialsPage() {
   return (
     <div className="max-w-7xl mx-auto px-6">
       <div className="mb-12">
-        <div className="section-label">BACKGROUND</div>
-        <h1 className="editorial-title text-white mb-8">
-          EDUCATION &<br />
-          <span className="text-zinc-500">EXPERIENCE</span>
+        <div className="art-badge-yellow text-[9px] px-3 py-1 mb-6 rounded-sm inline-block">BACKGROUND</div>
+        <h1 className="editorial-title mb-8">
+          <span className="block text-foreground">EDUCATION &</span>
+          <span className="block text-art-blue dark:text-blue-500">EXPERIENCE</span>
         </h1>
         
         {overview && (
-          <div className="art-card border-l-4 border-l-art-yellow py-8 px-10 mb-16 max-w-4xl">
-            <p className="text-lg text-zinc-300 font-medium leading-relaxed">
-              <span className="text-white font-black uppercase mr-2">Prathamesh Gadewar —</span>
+          <div className="art-card bg-white dark:bg-zinc-900/40 border-l-4 border-l-art-yellow py-8 px-10 mb-16 max-w-4xl rounded-r-3xl">
+            <p className="text-xl text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed">
+              <span className="text-foreground font-black uppercase mr-2 tracking-tighter">Prathamesh Gadewar —</span>
               {overview}
             </p>
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-16 pb-32">
         {/* Education Section */}
         <div>
-          <h2 className="text-2xl font-black mb-8 flex items-center gap-4 text-white uppercase">
-            <div className="w-10 h-10 bg-yellow-400/20 rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-art-yellow" />
-            </div>
-            Education
+          <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-10 flex items-center gap-4">
+             <div className="w-8 h-[1px] bg-border" />
+             Academic Path
           </h2>
 
           <div className="space-y-6">
             {loading ? (
-              [1, 2].map(i => <div key={i} className="h-40 art-card animate-pulse" />)
+              [1, 2].map(i => <div key={i} className="h-40 art-card animate-pulse bg-zinc-50" />)
             ) : (
               education.map((edu) => (
-                <div key={edu._id} className="art-card group relative overflow-hidden">
-                  <div className="border-l-2 border-zinc-700 pl-6 group-hover:border-art-yellow transition-colors">
-                    <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">{edu.institution}</p>
-                    <h3 className="text-xl font-bold text-white mb-2">{edu.degree}</h3>
-                    <p className="text-sm text-zinc-400 font-medium mb-4 uppercase tracking-tighter">{edu.specialization || "Engineering"}</p>
-                    
-                    <div className="flex items-center gap-3">
-                       <span className="bg-zinc-800 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">
-                          {edu.startYear} — {edu.endYear}
-                       </span>
-                       {edu.score && (
-                         <span className="text-[10px] font-bold text-zinc-500 uppercase">{edu.score}</span>
-                       )}
-                    </div>
+                <div key={edu._id} className="art-card group bg-white/50 dark:bg-zinc-900/30 border-border dark:border-zinc-800 hover:border-art-yellow transition-all rounded-[2rem] p-8">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-tighter">
+                       {edu.startYear} — {edu.endYear}
+                    </span>
+                    {edu.score && (
+                      <span className="text-[9px] font-black text-art-yellow uppercase tracking-widest">{edu.score}</span>
+                    )}
                   </div>
+                  <h3 className="text-2xl font-black text-foreground mb-4 group-hover:text-blue-600 transition-colors tracking-tight">{edu.degree}</h3>
+                  <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-2">{edu.institution}</p>
+                  <p className="text-xs font-medium text-zinc-500 line-clamp-2 uppercase tracking-tight">{edu.specialization || "Engineering"}</p>
                 </div>
               ))
             )}
@@ -129,30 +124,33 @@ export default function CredentialsPage() {
 
         {/* Experience Section */}
         <div>
-          <h2 className="text-2xl font-black mb-8 flex items-center gap-4 text-white uppercase">
-            <div className="w-10 h-10 bg-blue-400/10 rounded-xl flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-art-blue" />
-            </div>
-            Experience
+          <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-10 flex items-center gap-4">
+             <div className="w-8 h-[1px] bg-border" />
+             Professional Journey
           </h2>
 
           <div className="space-y-6">
             {loading ? (
-              [1, 2].map(i => <div key={i} className="h-40 art-card animate-pulse" />)
+              [1, 2].map(i => <div key={i} className="h-40 art-card animate-pulse bg-zinc-50" />)
             ) : (
               experience.map((exp) => (
-                <div key={exp._id} className="art-card group relative overflow-hidden">
-                  <div className="border-l-2 border-zinc-700 pl-6 group-hover:border-art-blue transition-colors">
-                    <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">{exp.company}</p>
-                    <h3 className="text-xl font-bold text-white mb-1">{exp.role}</h3>
-                    <p className="text-sm text-zinc-400 font-medium mb-4 uppercase tracking-tighter">{exp.duration}</p>
-                    
-                    {exp.description && (
-                      <p className="text-xs text-zinc-500 leading-relaxed max-w-md line-clamp-3 group-hover:text-zinc-300 transition-colors uppercase">
-                         {exp.description}
-                      </p>
+                <div key={exp._id} className="art-card group bg-white/50 dark:bg-zinc-900/30 border-border dark:border-zinc-800 hover:border-art-blue transition-all rounded-[2rem] p-8">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-tighter">
+                       {exp.duration}
+                    </span>
+                    {exp.status && (
+                       <span className="w-2 h-2 bg-art-yellow rounded-full animate-pulse shadow-[0_0_10px_rgba(253,224,71,0.5)]" />
                     )}
                   </div>
+                  <h3 className="text-2xl font-black text-foreground mb-4 group-hover:text-blue-600 transition-colors tracking-tight">{exp.role}</h3>
+                  <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-6">{exp.company}</p>
+                  
+                  {exp.description && (
+                    <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed uppercase tracking-tight line-clamp-3 group-hover:line-clamp-none transition-all">
+                       {exp.description}
+                    </p>
+                  )}
                 </div>
               ))
             )}

@@ -21,7 +21,7 @@ export default function BottomDock() {
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-t border-zinc-800"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-t border-border transition-colors"
     >
       <div className="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between gap-1">
         {dockItems.map((item) => {
@@ -34,17 +34,17 @@ export default function BottomDock() {
               href={item.href}
               className={`flex flex-col items-center justify-center w-full py-2 rounded-xl transition-all group ${
                 isActive
-                  ? "text-white"
-                  : "text-zinc-500 hover:text-zinc-300"
+                  ? "text-foreground"
+                  : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
               <div className={`p-2 rounded-lg mb-1 transition-all ${
-                isActive ? "bg-zinc-800" : "bg-transparent"
+                isActive ? "bg-black/5 dark:bg-white/10" : "bg-transparent"
               }`}>
                 <item.icon className="w-5 h-5" />
               </div>
-              <span className={`text-[10px] font-bold uppercase tracking-tight ${
-                isActive ? "opacity-100" : "opacity-50"
+              <span className={`text-[10px] font-black uppercase tracking-tight ${
+                isActive ? "opacity-100" : "opacity-40"
               }`}>{item.name}</span>
             </Link>
           );

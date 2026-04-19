@@ -7,9 +7,9 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-screen bg-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-background overflow-x-hidden transition-colors">
       <TopNav />
-      <main className="pt-32 pb-40">
+      <main className="pt-32 pb-40 px-6">
         {children}
       </main>
       <BottomDock />
