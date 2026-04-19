@@ -29,91 +29,85 @@ export default function CertificationsPage() {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 bg-white/60 dark:bg-white/10 rounded-xl border border-white/40 shadow-sm">
-          <Award className="w-6 h-6 text-yellow-500 dark:text-yellow-400" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold dark:text-white">Certifications</h1>
-          <p className="text-gray-500 dark:text-white/40">Verified skills and achievements</p>
-        </div>
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="mb-16">
+        <div className="art-badge-yellow text-[9px] px-3 py-1 mb-6 rounded-sm inline-block">ATTAINMENTS</div>
+        <h1 className="editorial-title mb-8">
+          <span className="block text-foreground">HONORS &</span>
+          <span className="block text-art-yellow">CERTIFICATES</span>
+        </h1>
+        <p className="text-zinc-400 font-bold text-[10px] uppercase tracking-[0.2em] italic">"Validation of expertise through industry-standard examination."</p>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="glass-card p-6 animate-pulse space-y-3">
-              <div className="h-6 bg-gray-200 dark:bg-white/10 rounded w-3/4" />
-              <div className="h-4 bg-gray-100 dark:bg-white/5 rounded w-1/2" />
-              <div className="h-4 bg-gray-100 dark:bg-white/5 rounded w-1/3" />
-            </div>
+            <div key={i} className="h-80 art-card animate-pulse bg-zinc-50 dark:bg-zinc-900" />
           ))}
         </div>
       ) : certs.length === 0 ? (
-        <div className="glass-card p-16 text-center">
-          <Award className="w-12 h-12 text-gray-300 dark:text-white/20 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-500 dark:text-white/40">
-            No certifications yet. Add them from the admin panel.
-          </p>
+        <div className="py-20 text-center border-2 border-dashed border-border rounded-[3rem] mb-32">
+          <Award className="w-12 h-12 text-gray-300 dark:text-zinc-800 mx-auto mb-4" />
+          <p className="text-zinc-400 font-black uppercase tracking-widest text-xs">No certifications found in this portfolio.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
           {certs.map((cert, idx) => (
             <motion.div
               key={cert._id}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: idx * 0.08 }}
-              className="glass-card p-6 group hover:scale-[1.02] transition-transform duration-300 flex flex-col"
+              className="art-card group bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-0 rounded-[3rem] hover:border-art-yellow transition-all overflow-hidden flex flex-col"
             >
-              {/* Badge / Image */}
-              {cert.image ? (
-                <div className="w-full h-40 rounded-xl overflow-hidden relative mb-4 bg-gray-50/50 dark:bg-white/5 border border-white/40 shadow-inner group-hover:border-blue-500/30 transition-colors">
-                  <Image 
-                    src={cert.image} 
-                    alt={cert.title} 
-                    fill 
-                    className="object-contain p-2" 
-                    unoptimized={cert.image.startsWith("/")}
-                  />
-                </div>
-              ) : (
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 flex items-center justify-center mb-4">
-                  <Award className="w-7 h-7 text-yellow-500 dark:text-yellow-400" />
-                </div>
-              )}
+              {/* Image / Header area */}
+               <div className="relative w-full aspect-[4/3] bg-zinc-50 dark:bg-zinc-950/60 border-b border-border dark:border-zinc-800 flex items-center justify-center overflow-hidden">
+                  {cert.image ? (
+                    <Image 
+                      src={cert.image} 
+                      alt={cert.title} 
+                      fill 
+                      className="object-contain p-8 group-hover:scale-105 transition-transform duration-500" 
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-3xl bg-art-yellow/10 flex items-center justify-center border border-art-yellow/20 group-hover:rotate-12 transition-transform">
+                        <Award className="w-10 h-10 text-art-yellow" />
+                    </div>
+                  )}
+                  {cert.year && (
+                    <div className="absolute top-6 right-6 art-badge bg-white/80 dark:bg-black/40 backdrop-blur-md border-border dark:border-zinc-800 py-1.5 px-4 text-[9px]">
+                        ISSUED: {cert.year}
+                    </div>
+                  )}
+               </div>
 
-              <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1 flex-1 leading-snug">
-                {cert.title}
-              </h2>
-
-              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-white/40 mt-2">
-                <Building className="w-4 h-4 shrink-0" />
-                <span>{cert.organization}</span>
-              </div>
-
-              {cert.year && (
-                <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-white/30 mt-1">
-                  <Calendar className="w-4 h-4 shrink-0" />
-                  <span>{cert.year}</span>
-                </div>
-              )}
-
-              {cert.link && (
-                <a
-                  href={cert.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" /> View Certificate
-                </a>
-              )}
+               {/* Content area */}
+               <div className="p-8 flex-1 flex flex-col">
+                  <div className="text-[9px] font-black text-art-yellow uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                     <Building className="w-3 h-3" /> {cert.organization}
+                  </div>
+                  <h2 className="text-xl font-black text-foreground mb-6 leading-tight tracking-tight group-hover:text-art-yellow transition-colors uppercase">
+                    {cert.title}
+                  </h2>
+                  
+                  <div className="mt-auto">
+                    {cert.link && (
+                      <a
+                        href={cert.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary w-full text-center py-3 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
+                      >
+                         View Document <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+               </div>
             </motion.div>
           ))}
         </div>
       )}
+    </div>
     </div>
   );
 }
