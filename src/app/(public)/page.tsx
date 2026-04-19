@@ -155,6 +155,7 @@ export default function HomePage() {
               </div>
            </div>
         </div>
+      </div>
 
       {/* Education & Experience Section */}
       <section className="mb-32 px-6 lg:px-0">
