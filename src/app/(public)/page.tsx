@@ -134,7 +134,7 @@ export default function HomePage() {
         <div className="lg:col-span-5 relative hidden lg:block h-full min-h-[500px]">
            <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-full max-w-[420px] aspect-[4/5]">
-                 <div className="relative w-full h-full bg-[#E2E8E4] dark:bg-[#0F1614] overflow-hidden rounded-[3.5rem] shadow-2xl transition-transform hover:scale-[1.01] z-10 border border-black/5 dark:border-white/5">
+                 <div className="relative w-full h-full bg-[#F5F0E8] dark:bg-[#1C1C1E] overflow-hidden rounded-[3.5rem] shadow-2xl transition-transform hover:scale-[1.01] z-10 border border-black/5 dark:border-white/5">
                     {profileImage ? (
                       <Image 
                         src={profileImage} 
