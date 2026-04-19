@@ -58,47 +58,48 @@ export default function CertificationsPage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: idx * 0.08 }}
-              className="art-card group bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-0 rounded-[3rem] hover:border-art-yellow transition-all overflow-hidden flex flex-col"
+              className="art-card group bg-white dark:bg-zinc-900 border-border dark:border-zinc-800 p-0 rounded-[2.5rem] hover:border-art-yellow transition-all overflow-hidden flex flex-col shadow-sm"
             >
-              {/* Image / Header area */}
-               <div className="relative w-full aspect-[4/3] bg-zinc-50 dark:bg-zinc-950/60 border-b border-border dark:border-zinc-800 flex items-center justify-center overflow-hidden">
+              {/* Image / Header area - Tailored to fit certificates perfectly */}
+               <div className="relative w-full aspect-[1.414/1] bg-white dark:bg-zinc-950 flex items-center justify-center overflow-hidden border-b border-border dark:border-zinc-800">
                   {cert.image ? (
                     <Image 
                       src={cert.image} 
                       alt={cert.title} 
                       fill 
-                      className="object-contain p-8 group-hover:scale-105 transition-transform duration-500" 
+                      className="object-contain p-4 group-hover:scale-[1.03] transition-all duration-500" 
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-3xl bg-art-yellow/10 flex items-center justify-center border border-art-yellow/20 group-hover:rotate-12 transition-transform">
-                        <Award className="w-10 h-10 text-art-yellow" />
+                    <div className="w-20 h-20 rounded-3xl bg-art-yellow/5 flex items-center justify-center border border-art-yellow/10">
+                        <Award className="w-10 h-10 text-art-yellow/40" />
                     </div>
                   )}
+                  
                   {cert.year && (
-                    <div className="absolute top-6 right-6 art-badge bg-white/80 dark:bg-black/40 backdrop-blur-md border-border dark:border-zinc-800 py-1.5 px-4 text-[9px]">
-                        ISSUED: {cert.year}
+                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-[8px] font-black py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        CLASS OF {cert.year}
                     </div>
                   )}
                </div>
 
                {/* Content area */}
-               <div className="p-8 flex-1 flex flex-col">
-                  <div className="text-[9px] font-black text-art-yellow uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
-                     <Building className="w-3 h-3" /> {cert.organization}
+               <div className="p-8 pb-6 flex-1 flex flex-col text-center items-center">
+                  <div className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-3">
+                    {cert.organization}
                   </div>
-                  <h2 className="text-xl font-black text-foreground mb-6 leading-tight tracking-tight group-hover:text-art-yellow transition-colors uppercase">
+                  <h2 className="text-lg font-black text-foreground mb-6 leading-tight uppercase max-w-[90%]">
                     {cert.title}
                   </h2>
                   
-                  <div className="mt-auto">
+                  <div className="mt-auto w-full">
                     {cert.link && (
                       <a
                         href={cert.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-primary w-full text-center py-3 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
+                        className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 w-full py-3.5 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-art-yellow hover:text-zinc-900 transition-all dark:hover:bg-art-yellow"
                       >
-                         View Document <ExternalLink className="w-3 h-3" />
+                         Access Credentials <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}
                   </div>
