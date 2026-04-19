@@ -94,11 +94,10 @@ export default function HomePage() {
            </div>
            
            <h1 className="editorial-title mb-10">
-              <span className="block text-foreground mb-4 uppercase leading-[0.9] tracking-tighter transition-all">
+              <span className="block text-[#D0DFF2] mb-4 uppercase leading-[0.9] tracking-tighter transition-all">
                 Hi everyone,<br/>
                 I'm {profile?.name || "Prathamesh"}
               </span>
-              <span className="block text-art-blue dark:text-blue-500 drop-shadow-sm">Based in India</span>
            </h1>
            
            <p className="text-xl text-zinc-500 dark:text-zinc-400 max-w-2xl mb-12 leading-relaxed font-medium">
