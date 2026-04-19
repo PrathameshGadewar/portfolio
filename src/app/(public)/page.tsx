@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Briefcase, Code, Sparkles, GraduationCap, Mail, ArrowUpRight } from "lucide-react";
+import { User, Briefcase, Code, Sparkles, GraduationCap, Mail, ArrowUpRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -22,6 +22,21 @@ interface Profile {
   quote?: string;
 }
 
+interface Education {
+  _id: string;
+  degree: string;
+  institution: string;
+  startYear?: string;
+  endYear?: string;
+}
+
+interface Experience {
+  _id: string;
+  role: string;
+  company: string;
+  duration: string;
+}
+
 const SectionLabel = ({ children, color = "blue" }: { children: React.ReactNode; color?: "blue" | "yellow" }) => (
   <div className={`inline-block px-4 py-1.5 text-xs font-black tracking-widest uppercase mb-4 border-2 border-art-dark ${color === "yellow" ? "art-accent-yellow" : "art-accent-blue"}`}>
     {children}
@@ -39,14 +54,21 @@ const cards = [
 
 export default function HomePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [education, setEducation] = useState<Education[]>([]);
+  const [experience, setExperience] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(true);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   useEffect(() => {
-    fetch("/api/portfolio/profile")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setProfile(data[0]);
+    Promise.all([
+      fetch("/api/portfolio/profile").then((r) => r.json()),
+      fetch("/api/portfolio/education").then((r) => r.json()),
+      fetch("/api/portfolio/experience").then((r) => r.json()),
+    ])
+      .then(([profiles, edu, exp]) => {
+        if (Array.isArray(profiles) && profiles.length > 0) setProfile(profiles[0]);
+        if (Array.isArray(edu)) setEducation(edu.slice(0, 2));
+        if (Array.isArray(exp)) setExperience(exp.slice(0, 2));
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -134,6 +156,66 @@ export default function HomePage() {
            </div>
         </div>
       </div>
+
+      {/* Education & Experience Section */}
+      <section className="mb-32 px-6 lg:px-0">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
+           <div>
+              <div className="art-badge-yellow text-[9px] px-3 py-1 mb-4 rounded-sm inline-block">PATHWAY</div>
+              <h2 className="text-4xl lg:text-5xl font-black text-foreground uppercase leading-[0.9] tracking-tighter">
+                 Education &<br/>
+                 <span className="text-zinc-400 dark:text-zinc-600">Experience</span>
+              </h2>
+           </div>
+           <Link href="/credentials" className="group text-[10px] font-black uppercase underline decoration-2 underline-offset-4 hover:text-art-blue transition-colors flex items-center gap-2">
+              VIEW FULL CREDENTIALS <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+           </Link>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+           {/* Experience column */}
+           <div className="space-y-6">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
+                 <Briefcase className="w-4 h-4 text-art-blue" /> Professional Journey
+              </h3>
+              <div className="space-y-4">
+                 {experience.length > 0 ? experience.map((exp) => (
+                    <div key={exp._id} className="art-card bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-8 rounded-[2.5rem] hover:border-art-blue transition-all group">
+                       <div className="flex justify-between items-start mb-4">
+                          <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{exp.duration}</span>
+                          <div className="w-2 h-2 rounded-full bg-art-blue opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                       </div>
+                       <h4 className="text-2xl font-black text-foreground mb-1 tracking-tight">{exp.role}</h4>
+                       <p className="text-sm font-bold text-art-blue uppercase tracking-widest">{exp.company}</p>
+                    </div>
+                 )) : (
+                    <div className="p-8 border-2 border-dashed border-border rounded-[2.5rem] text-center text-zinc-400 text-xs font-bold uppercase">No experience logged</div>
+                 )}
+              </div>
+           </div>
+
+           {/* Education column */}
+           <div className="space-y-6">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
+                 <GraduationCap className="w-4 h-4 text-art-yellow" /> Academic Pathway
+              </h3>
+              <div className="space-y-4">
+                 {education.length > 0 ? education.map((edu) => (
+                    <div key={edu._id} className="art-card bg-white dark:bg-zinc-900/40 border-border dark:border-zinc-800 p-8 rounded-[2.5rem] hover:border-art-yellow transition-all group">
+                        <div className="flex justify-between items-start mb-4">
+                          <span className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{edu.startYear} — {edu.endYear}</span>
+                          <div className="w-2 h-2 rounded-full bg-art-yellow opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_8px_rgba(253,224,71,0.5)]" />
+                       </div>
+                       <h4 className="text-2xl font-black text-foreground mb-1 tracking-tight">{edu.degree}</h4>
+                       <p className="text-sm font-bold text-art-yellow uppercase tracking-widest">{edu.institution}</p>
+                    </div>
+                 )) : (
+                    <div className="p-8 border-2 border-dashed border-border rounded-[2.5rem] text-center text-zinc-400 text-xs font-bold uppercase">No education logged</div>
+                 )}
+              </div>
+           </div>
+        </div>
+      </section>
     </div>
   );
 }
