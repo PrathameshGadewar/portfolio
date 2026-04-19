@@ -83,9 +83,9 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Hero Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center min-h-[70vh] mb-32">
+      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 lg:gap-20 items-center min-h-[70vh] mb-32 pt-10 md:pt-20">
         {/* Left Column: Text Content */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 order-2 lg:order-1">
            <div className="mb-8">
               <div className="art-badge">
                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
@@ -131,7 +131,7 @@ export default function HomePage() {
         </div>
 
         {/* Right Column: Profile Image Card */}
-        <div className="lg:col-span-5 relative hidden lg:block h-full min-h-[500px]">
+        <div className="lg:col-span-5 relative block order-1 lg:order-2 w-full h-full min-h-[400px] lg:min-h-[500px]">
            <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-full max-w-[420px] aspect-[4/5]">
                  <div className="relative w-full h-full bg-[#1C1C1E] dark:bg-[#F5F0E8] overflow-hidden rounded-[3.5rem] shadow-2xl transition-transform hover:scale-[1.01] z-10 border border-white/5 dark:border-black/5">
