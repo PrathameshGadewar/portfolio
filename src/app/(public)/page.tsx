@@ -256,7 +256,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} resumeUrl={profile?.resumeLink} />
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} resumeUrl={profile?.resumeLink || ""} name={profile?.name || "Prathamesh Gadewar"} />
     </div>
   );
 }
