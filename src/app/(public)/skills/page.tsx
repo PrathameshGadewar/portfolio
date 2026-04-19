@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code, Layers } from "lucide-react";
+import { Code, Layers, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Skill {
@@ -12,21 +12,25 @@ interface Skill {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  programming: "bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800/30",
-  deployment: "bg-green-50 text-green-700 border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800/30",
-  design: "bg-purple-50 text-purple-700 border-purple-100 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-800/30",
-  database: "bg-orange-50 text-orange-700 border-orange-100 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-800/30",
-  ai: "bg-pink-50 text-pink-700 border-pink-100 dark:bg-pink-900/20 dark:text-pink-300 dark:border-pink-800/30",
-  default: "bg-gray-50 text-gray-700 border-gray-100 dark:bg-white/5 dark:text-white/50 dark:border-white/10",
+  programming: "art-accent-blue text-white",
+  design: "art-accent-yellow text-art-dark",
+  deployment: "bg-art-dark text-white",
+  default: "bg-white text-art-dark border-2 border-art-dark",
 };
 
-function getCategoryColor(category: string) {
+function getCategoryClass(category: string) {
   const key = category.toLowerCase();
   for (const [k, v] of Object.entries(CATEGORY_COLORS)) {
     if (key.includes(k)) return v;
   }
   return CATEGORY_COLORS.default;
 }
+
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <div className="inline-block px-3 py-1 bg-art-yellow border-2 border-art-dark text-[10px] font-black tracking-widest uppercase mb-4 shadow-[2px_2px_0px_#1e293b]">
+    {children}
+  </div>
+);
 
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -42,89 +46,65 @@ export default function SkillsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Group skills by category
   const grouped: Record<string, Skill[]> = {};
   skills.forEach((skill) => {
-    const cat = skill.category || "Other";
+    const cat = skill.category || "General";
     if (!grouped[cat]) grouped[cat] = [];
     grouped[cat].push(skill);
   });
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 bg-white/60 dark:bg-white/10 rounded-xl border border-white/40 shadow-sm">
-          <Code className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold dark:text-white">Skills</h1>
-          <p className="text-gray-500 dark:text-white/40">Technologies and superpowers I use</p>
-        </div>
+    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
+      <div className="mb-16">
+        <SectionLabel>Competencies</SectionLabel>
+        <h1 className="editorial-title text-art-dark dark:text-white">CREATIVE<br/><span className="text-art-blue">TOOLKIT</span></h1>
+        <p className="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest italic">"The tools of the craft, mastered for perfection."</p>
       </div>
 
       {loading ? (
-        <div className="space-y-6">
-          {[1, 2].map((i) => (
-            <div key={i} className="glass-card p-8 animate-pulse space-y-4">
-              <div className="h-5 bg-gray-200 dark:bg-white/10 rounded w-1/4" />
-              <div className="flex flex-wrap gap-3">
-                {[1, 2, 3, 4, 5].map((j) => (
-                  <div key={j} className="h-8 w-24 bg-gray-200 dark:bg-white/10 rounded-full" />
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {[1, 2].map(i => <div key={i} className="art-card h-64 animate-pulse bg-gray-50" />)}
         </div>
       ) : skills.length === 0 ? (
-        <div className="glass-card p-16 text-center">
-          <Code className="w-12 h-12 text-gray-300 dark:text-white/20 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-500 dark:text-white/40">
-            No skills yet. Add them from the admin panel.
-          </p>
+        <div className="art-card p-20 text-center">
+             <h2 className="text-4xl font-black text-gray-200 uppercase tracking-tighter italic">"The toolkit is currently empty"</h2>
+             <p className="mt-4 text-xs font-bold text-gray-400">CHECK BACK LATER FOR UPDATED SPECIALIZATIONS</p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {Object.entries(grouped).map(([category, items], idx) => (
             <motion.div
               key={category}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: idx * 0.1 }}
-              className="glass-card p-8"
+              transition={{ delay: idx * 0.05 }}
+              className="flex flex-col h-full"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <Layers className="w-5 h-5 text-gray-400 dark:text-white/30" />
-                <h2 className="text-lg font-bold text-gray-800 dark:text-white">{category}</h2>
-                <span className="text-xs text-gray-400 dark:text-white/30 font-medium">
-                  {items.length} skill{items.length !== 1 ? "s" : ""}
-                </span>
+              <div className="flex items-center gap-4 mb-4">
+                 <div className="h-0.5 flex-1 bg-art-dark" />
+                 <h2 className="text-xs font-black uppercase tracking-[0.2em] text-art-blue">{category}</h2>
+                 <div className="h-0.5 w-4 bg-art-dark" />
               </div>
-              <div className="flex flex-wrap gap-3">
+              
+              <div className="art-card h-full grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {items.map((skill, sIdx) => (
                   <motion.div
                     key={skill._id}
-                    initial={{ scale: 0.8, opacity: 0 }}
+                    initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: idx * 0.1 + sIdx * 0.04 }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium ${getCategoryColor(category)}`}
+                    transition={{ delay: idx * 0.05 + sIdx * 0.02 }}
+                    className="flex flex-col items-center justify-center p-3 border-2 border-dashed border-gray-200 rounded-lg group hover:border-art-blue transition-colors"
                   >
-                    {skill.icon && (
-                      <span className="text-base flex items-center justify-center shrink-0">
-                        {skill.icon.startsWith("/") || skill.icon.startsWith("http") ? (
-                          <img 
-                            src={skill.icon} 
-                            alt="" 
-                            className="w-5 h-5 object-contain"
-                            onError={(e) => {
-                              (e.target as any).parentNode.innerHTML = "✨";
-                            }}
-                          />
-                        ) : (
-                          skill.icon
-                        )}
-                      </span>
-                    )}
-                    {skill.name}
+                    <div className="w-10 h-10 mb-2 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all group-hover:scale-110">
+                      {skill.icon ? (
+                         skill.icon.startsWith("http") || skill.icon.startsWith("/") ? (
+                           <img src={skill.icon} alt="" className="w-full h-full object-contain" />
+                         ) : <span className="text-xl">{skill.icon}</span>
+                      ) : <Sparkles className="w-6 h-6 text-gray-200" />}
+                    </div>
+                    <span className="text-[10px] font-black uppercase text-center tracking-tighter group-hover:text-art-blue">
+                        {skill.name}
+                    </span>
                   </motion.div>
                 ))}
               </div>

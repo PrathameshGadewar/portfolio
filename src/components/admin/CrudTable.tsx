@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const LONG_FIELDS = ["description", "bio", "overview", "message", "content"];
 const ARRAY_FIELDS = ["tags", "roles"];
 const IMAGE_FIELDS = ["image", "icon", "profileImage", "logo", "thumbnail"];
+const FILE_FIELDS = ["resumeLink", "file", "document"];
 
 export default function CrudTable({ 
   modelName, 
@@ -347,6 +348,9 @@ export default function CrudTable({
                 {fields.map((field) => {
                   const isLong = LONG_FIELDS.includes(field);
                   const isArray = ARRAY_FIELDS.includes(field);
+                  const isImage = IMAGE_FIELDS.includes(field);
+                  const isFile = FILE_FIELDS.includes(field);
+
                   return (
                     <div key={field}>
                       <label className="block text-sm font-semibold text-gray-700 capitalize mb-1.5">
@@ -366,7 +370,7 @@ export default function CrudTable({
                           onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                           placeholder={`Enter ${field}...`}
                         />
-                      ) : IMAGE_FIELDS.includes(field) ? (
+                      ) : isImage ? (
                         <div className="space-y-3">
                           <div className="flex items-center gap-4">
                             <div className="relative group w-20 h-20 rounded-2xl bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all hover:border-blue-400">
@@ -408,6 +412,58 @@ export default function CrudTable({
                                 )}
                               </div>
                               <p className="text-[10px] text-gray-400">SVG, PNG, JPG (max. 5MB)</p>
+                            </div>
+                          </div>
+                          {/* Fallback to text input for manual URL */}
+                          <input
+                            type="text"
+                            className="w-full px-4 py-2 border border-gray-100 rounded-lg focus:outline-none bg-gray-50/50 text-[11px] text-gray-400 placeholder:text-gray-300"
+                            value={formData[field] || ""}
+                            onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+                            placeholder="Or paste external URL..."
+                          />
+                        </div>
+                      ) : isFile ? (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-4">
+                            <div className="relative group w-20 h-20 rounded-2xl bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all hover:border-blue-400">
+                              {formData[field] ? (
+                                <div className="flex flex-col items-center justify-center text-center p-2">
+                                  <ExternalLink className="w-6 h-6 text-blue-500 mb-1" />
+                                  <span className="text-[8px] font-bold text-gray-500 truncate w-full px-1">PDF/DOC</span>
+                                </div>
+                              ) : (
+                                <Upload className="w-6 h-6 text-gray-300 group-hover:text-blue-400 transition-colors" />
+                              )}
+                              {uploadingField === field && (
+                                <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                                  <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <div className="flex items-center gap-2">
+                                <label className="cursor-pointer bg-white border border-gray-200 px-4 py-2 rounded-xl text-xs font-semibold hover:border-gray-900 transition-colors shadow-sm flex items-center gap-2">
+                                  <Upload className="w-3.5 h-3.5" />
+                                  {formData[field] ? "Replace File" : "Upload File"}
+                                  <input 
+                                    type="file" 
+                                    className="hidden" 
+                                    accept=".pdf,.doc,.docx"
+                                    onChange={(e) => handleFileUpload(e, field)}
+                                  />
+                                </label>
+                                {formData[field] && (
+                                  <button 
+                                    type="button"
+                                    onClick={() => setFormData({ ...formData, [field]: "" })}
+                                    className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
+                              </div>
+                              <p className="text-[10px] text-gray-400">PDF, DOC, DOCX (max. 10MB)</p>
                             </div>
                           </div>
                           {/* Fallback to text input for manual URL */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, MapPin, Clock } from "lucide-react";
+import { Briefcase, MapPin, Clock, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Experience {
@@ -13,6 +13,12 @@ interface Experience {
   status?: string;
   description?: string;
 }
+
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <div className="inline-block px-3 py-1 bg-art-yellow border-2 border-art-dark text-[10px] font-black tracking-widest uppercase mb-4 shadow-[2px_2px_0px_#1e293b]">
+    {children}
+  </div>
+);
 
 export default function ExperiencePage() {
   const [experience, setExperience] = useState<Experience[]>([]);
@@ -29,94 +35,73 @@ export default function ExperiencePage() {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 bg-white/60 dark:bg-white/10 rounded-xl border border-white/40 shadow-sm">
-          <Briefcase className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold dark:text-white">Experience</h1>
-          <p className="text-gray-500 dark:text-white/40">Places I've worked and impact I've made</p>
-        </div>
+    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
+      <div className="mb-16">
+        <SectionLabel>Logbook</SectionLabel>
+        <h1 className="editorial-title text-art-dark dark:text-white">WORK<br/><span className="text-art-blue">HISTORY</span></h1>
+        <p className="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest italic">"A professional journey defined by impact and innovation."</p>
       </div>
 
       {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="glass-card p-6 animate-pulse">
-              <div className="h-5 bg-gray-200 dark:bg-white/10 rounded w-1/3 mb-3" />
-              <div className="h-4 bg-gray-100 dark:bg-white/5 rounded w-1/4 mb-2" />
-              <div className="h-3 bg-gray-100 dark:bg-white/5 rounded w-full" />
-            </div>
-          ))}
+        <div className="space-y-10">
+          {[1, 2].map(i => <div key={i} className="art-card h-48 animate-pulse bg-gray-50" />)}
         </div>
       ) : experience.length === 0 ? (
-        <div className="glass-card p-16 text-center">
-          <Briefcase className="w-12 h-12 text-gray-300 dark:text-white/20 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-500 dark:text-white/40">
-            No experience entries yet. Add them from the admin panel.
-          </p>
+        <div className="art-card p-20 text-center">
+             <h2 className="text-4xl font-black text-gray-200 uppercase tracking-tighter italic">"No professional records found"</h2>
+             <p className="mt-4 text-xs font-bold text-gray-400">ENTRIES WILL BE UPDATED ONCE VERIFIED</p>
         </div>
       ) : (
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-purple-200 dark:via-purple-900/40 to-transparent" />
-
-          <div className="space-y-6">
-            {experience.map((exp, idx) => (
-              <motion.div
-                key={exp._id}
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: idx * 0.1 }}
-                className="relative pl-16"
-              >
-                {/* Dot */}
-                <div className="absolute left-4 top-6 w-5 h-5 rounded-full bg-purple-500 dark:bg-purple-600 border-4 border-white dark:border-[#0d0b1a] shadow-lg z-10 -translate-x-1/2" />
-
-                <div className="glass-card p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
-                    <div>
-                      <h2 className="text-xl font-bold text-gray-900 dark:text-white">{exp.role}</h2>
-                      <p className="text-purple-600 dark:text-purple-400 font-semibold">{exp.company}</p>
-                    </div>
-                    {exp.status && (
-                      <div
-                        className={`px-3 py-1 rounded-full text-xs font-bold self-start shrink-0 ${
-                          exp.status.toLowerCase().includes("current") || exp.status.toLowerCase().includes("full")
-                            ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
-                            : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400"
-                        }`}
-                      >
-                        {exp.status}
+        <div className="space-y-12">
+          {experience.map((exp, idx) => (
+            <motion.div
+              key={exp._id}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: idx * 0.1 }}
+              className="group"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-3">
+                      <div className="flex flex-col gap-2">
+                          <span className="text-3xl font-black italic text-art-dark/10 dark:text-white/10">ENTRY_0{idx+1}</span>
+                          <span className="text-sm font-black text-art-blue uppercase tracking-tighter">{exp.duration}</span>
+                          {exp.location && <span className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1"><MapPin className="w-3 h-3" /> {exp.location}</span>}
                       </div>
-                    )}
                   </div>
+                  
+                  <div className="lg:col-span-9">
+                      <div className="art-card group-hover:border-art-blue group-hover:shadow-[12px_12px_0px_#2563eb] transition-all relative overflow-hidden">
+                          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
+                              <Briefcase className="w-24 h-24" />
+                          </div>
+                          
+                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                              <div>
+                                  <h2 className="text-3xl font-black uppercase leading-none mb-2">{exp.role}</h2>
+                                  <h3 className="text-lg font-bold text-art-blue uppercase">{exp.company}</h3>
+                              </div>
+                              {exp.status && (
+                                  <div className="art-accent-yellow px-4 py-1 border-2 border-art-dark text-[10px] font-black uppercase shadow-[3px_3px_0px_#1e293b]">
+                                      {exp.status}
+                                  </div>
+                              )}
+                          </div>
+                          
+                          <p className="text-sm font-medium text-gray-500 leading-relaxed uppercase border-t-2 border-dashed border-gray-100 pt-6">
+                              {exp.description || "NO DESCRIPTION PROVIDED IN SYSTEM RECORDS."}
+                          </p>
 
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-white/40 mb-3">
-                    {exp.duration && (
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-4 h-4" />
-                        {exp.duration}
+                          <div className="mt-8 flex justify-end">
+                              <div className="flex items-center gap-2 text-[10px] font-black uppercase group-hover:text-art-blue transition-colors">
+                                  VERIFIED LOG <ArrowRight className="w-4 h-4" />
+                              </div>
+                          </div>
                       </div>
-                    )}
-                    {exp.location && (
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="w-4 h-4" />
-                        {exp.location}
-                      </div>
-                    )}
                   </div>
-
-                  {exp.description && (
-                    <p className="text-gray-500 dark:text-white/40 text-sm leading-relaxed">
-                      {exp.description}
-                    </p>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       )}
     </div>

@@ -24,6 +24,7 @@ const EducationSchema = new Schema({
   endYear: { type: String },
   link: { type: String },
   logo: { type: String },
+  score: { type: String }, // CGPA or Percentage
 });
 
 const ExperienceSchema = new Schema({

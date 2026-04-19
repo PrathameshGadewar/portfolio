@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, ExternalLink, Code2, Filter } from "lucide-react";
+import { Briefcase, ExternalLink, Code2, Filter, Grid } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -17,6 +17,12 @@ interface Project {
 }
 
 const CATEGORIES = ["All", "Web", "AI/ML", "Backend"];
+
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <div className="inline-block px-3 py-1 bg-art-yellow border-2 border-art-dark text-[10px] font-black tracking-widest uppercase mb-4 shadow-[2px_2px_0px_#1e293b]">
+    {children}
+  </div>
+);
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -39,120 +45,98 @@ export default function ProjectsPage() {
       : projects.filter((p) => p.category?.toLowerCase() === activeFilter.toLowerCase());
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 bg-white/60 dark:bg-white/10 rounded-xl border border-white/40 shadow-sm">
-          <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-        </div>
+    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
         <div>
-          <h1 className="text-3xl font-bold dark:text-white">Showcase</h1>
-          <p className="text-gray-500 dark:text-white/40">A collection of my featured work</p>
+          <SectionLabel>Collections</SectionLabel>
+          <h1 className="editorial-title text-art-dark dark:text-white">PROJECT<br/><span className="text-art-blue">SHOWCASE</span></h1>
+        </div>
+        
+        {/* Filters - Magazine Style */}
+        <div className="flex flex-wrap gap-3">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveFilter(cat)}
+              className={`px-6 py-2 border-2 border-art-dark text-xs font-black tracking-widest uppercase transition-all ${
+                activeFilter === cat
+                  ? "bg-art-blue text-white shadow-[4px_4px_0px_#1e293b] translate-x-[-2px] translate-y-[-2px]"
+                  : "bg-white hover:bg-gray-50 dark:bg-black/20"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            id={`filter-${cat.toLowerCase().replace("/", "-")}`}
-            onClick={() => setActiveFilter(cat)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-              activeFilter === cat
-                ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm"
-                : "bg-white/50 dark:bg-white/5 border border-white/40 dark:border-white/10 hover:bg-white dark:hover:bg-white/10 text-gray-600 dark:text-white/50"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="glass-card overflow-hidden animate-pulse">
-              <div className="h-48 bg-gray-200 dark:bg-white/10" />
-              <div className="p-6 space-y-3">
-                <div className="h-4 bg-gray-200 dark:bg-white/10 rounded w-3/4" />
-                <div className="h-3 bg-gray-100 dark:bg-white/5 rounded w-full" />
-                <div className="h-3 bg-gray-100 dark:bg-white/5 rounded w-5/6" />
-              </div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="art-card h-[400px] animate-pulse bg-gray-50 p-0 overflow-hidden" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="glass-card p-16 text-center">
-          <Filter className="w-12 h-12 text-gray-300 dark:text-white/20 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-500 dark:text-white/40">
-            {projects.length === 0 ? "No projects yet. Add them from the admin panel." : `No projects in "${activeFilter}" category.`}
-          </p>
+        <div className="art-card p-20 text-center">
+            <h2 className="text-4xl font-black text-gray-200 uppercase tracking-tighter italic">"No artifacts found in this sector"</h2>
+            <p className="mt-4 text-xs font-bold text-gray-400">SELECT ANOTHER CATEGORY OR CHECK BACK LATER</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {filtered.map((project, idx) => (
             <motion.div
               key={project._id}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: idx * 0.08 }}
-              className="glass-card group overflow-hidden flex flex-col"
+              transition={{ delay: idx * 0.05 }}
+              className="art-card group p-0 overflow-hidden flex flex-col h-full bg-white hover:border-art-blue"
             >
-              {/* Image */}
-              <div className="h-48 flex-shrink-0 relative overflow-hidden bg-gradient-to-br from-blue-100/50 to-purple-100/50 dark:from-blue-900/20 dark:to-purple-900/20">
+              {/* Image Header */}
+              <div className="relative aspect-video overflow-hidden border-b-2 border-art-dark bg-art-yellow">
                 {project.image ? (
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  <Image src={project.image} alt={project.title} fill className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                    <Briefcase className="w-12 h-12 text-blue-200 dark:text-blue-900" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                     <Grid className="w-16 h-16 text-art-dark/10" />
                   </div>
                 )}
-                {project.category && (
-                  <div className="absolute top-3 right-3 text-xs font-bold text-white bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                    {project.category}
-                  </div>
-                )}
+                <div className="absolute top-4 left-4">
+                  <span className="bg-art-dark text-white text-[8px] font-black px-2 py-1 uppercase tracking-widest shadow-[2px_2px_0px_#fde047]">
+                    REF: 00{idx+1}
+                  </span>
+                </div>
               </div>
 
+              {/* Content */}
               <div className="p-6 flex-1 flex flex-col">
-                <div className="flex gap-2 mb-3 flex-wrap">
-                  {project.tags?.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[10px] uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded border border-blue-100 dark:border-blue-900/30"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="flex gap-2 mb-4">
+                   {project.category && (
+                     <div className="text-[10px] font-black text-art-blue uppercase">{project.category}</div>
+                   )}
+                   <div className="w-px h-3 bg-gray-200" />
+                   <div className="flex-1 flex gap-2 overflow-hidden">
+                      {project.tags.slice(0, 2).map(tag => (
+                        <span key={tag} className="text-[10px] font-bold text-gray-400 uppercase truncate">{tag}</span>
+                      ))}
+                   </div>
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h2>
-                <p className="text-gray-500 dark:text-white/40 text-sm flex-1 leading-relaxed">{project.description}</p>
 
-                <div className="flex gap-3 mt-5 pt-5 border-t border-gray-100 dark:border-white/5">
+                <h2 className="text-2xl font-black mb-4 leading-none uppercase group-hover:text-art-blue transition-colors">
+                  {project.title}
+                </h2>
+                <p className="text-xs font-medium text-gray-500 flex-1 leading-relaxed uppercase border-l-2 border-art-yellow pl-4">
+                  {project.description}
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mt-8 pt-6 border-t-2 border-dashed border-gray-100">
                   {project.liveLink && (
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" /> Live Demo
+                    <a href={project.liveLink} target="_blank" className="art-accent-blue py-2 text-[10px] font-black uppercase flex items-center justify-center gap-2 hover:translate-y-[-2px] transition-transform">
+                      VIEW LIVE <ExternalLink className="w-3 h-3" />
                     </a>
                   )}
                   {project.githubLink && (
-                    <a
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
-                    >
-                      <Code2 className="w-4 h-4" /> Source
+                    <a href={project.githubLink} target="_blank" className="art-accent-yellow py-2 text-[10px] text-art-dark font-black uppercase flex items-center justify-center gap-2 hover:translate-y-[-2px] transition-transform">
+                      GET SOURCE <Code2 className="w-3 h-3" />
                     </a>
                   )}
                 </div>
