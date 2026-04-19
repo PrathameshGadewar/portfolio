@@ -122,13 +122,21 @@ export default function ProjectsPage() {
                   </div>
                </div>
 
-               <div className="flex justify-start px-2 py-2 mt-auto">
+               <div className="flex flex-wrap gap-2 px-8 pb-8 mt-auto">
                   {project.liveLink ? (
-                    <a href={project.liveLink} target="_blank" className="bg-art-yellow text-foreground px-6 py-2 rounded-lg font-black text-[9px] uppercase flex items-center gap-2 hover:scale-[1.03] transition-all shadow-sm">
-                       Visit Project <span className="text-lg leading-none">→</span>
+                    <a href={project.liveLink} target="_blank" className="bg-art-yellow text-foreground px-4 py-2 rounded-lg font-black text-[9px] uppercase flex items-center gap-1.5 hover:scale-[1.03] transition-all shadow-sm">
+                       Visit Project <span className="text-xs">↗</span>
                     </a>
-                  ) : (
-                    <div className="bg-zinc-100 dark:bg-zinc-800 text-zinc-400 px-6 py-2 rounded-lg font-black text-[9px] uppercase">Prototype Stage</div>
+                  ) : null}
+                  
+                  {project.githubLink ? (
+                    <a href={project.githubLink} target="_blank" className="bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 px-4 py-2 rounded-lg font-black text-[9px] uppercase flex items-center gap-1.5 hover:opacity-90 transition-all shadow-sm">
+                       Github Link <span className="text-xs leading-none">⟨⟩</span>
+                    </a>
+                  ) : null}
+
+                  {!project.liveLink && !project.githubLink && (
+                    <div className="bg-zinc-100 dark:bg-zinc-800 text-zinc-400 px-4 py-2 rounded-lg font-black text-[9px] uppercase">Prototype Stage</div>
                   )}
                </div>
             </div>
