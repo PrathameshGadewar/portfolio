@@ -89,12 +89,15 @@ export default function HomePage() {
            <div className="mb-8">
               <div className="art-badge">
                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                 Hi everyone, I'm {profile?.name || "Prathamesh Gadewar"}
+                 Graphic Designer
               </div>
            </div>
            
            <h1 className="editorial-title mb-10">
-              <span className="block text-foreground mb-2">Graphic Designer</span>
+              <span className="block text-foreground mb-4 uppercase leading-[0.9] tracking-tighter transition-all">
+                Hi everyone,<br/>
+                I'm {profile?.name || "Prathamesh"}
+              </span>
               <span className="block text-art-blue dark:text-blue-500 drop-shadow-sm">Based in India</span>
            </h1>
            
