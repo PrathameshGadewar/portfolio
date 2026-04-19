@@ -42,63 +42,52 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-      <div className="mb-16">
-        <SectionLabel>Capabilites</SectionLabel>
-        <h1 className="editorial-title text-art-dark dark:text-white">WHAT<br/><span className="text-art-blue">I DO</span></h1>
-        <p className="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest italic">"Tailored solutions for a digital-first world."</p>
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="mb-12">
+        <div className="section-label">OFFERINGS</div>
+        <h1 className="editorial-title text-white mb-8">
+          WHAT I<br />
+          <span className="text-zinc-500">OFFER</span>
+        </h1>
       </div>
 
-      {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {[1, 2].map(i => <div key={i} className="art-card h-64 animate-pulse bg-gray-50" />)}
-        </div>
-      ) : services.length === 0 ? (
-        <div className="art-card p-20 text-center">
-             <h2 className="text-4xl font-black text-gray-200 uppercase tracking-tighter italic">"No services currently listed"</h2>
-             <p className="mt-4 text-xs font-bold text-gray-400">CONTACT DIRECTLY FOR CUSTOM PROJECT INQUIRIES</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {services.map((service, idx) => {
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {loading ? (
+          [1, 2, 3, 4].map((i) => (
+            <div key={i} className="art-card h-80 animate-pulse bg-zinc-900" />
+          ))
+        ) : (
+          services.map((service, idx) => {
             const IconEl = ICON_MAP[service.icon?.toLowerCase() || ""] || DEFAULT_ICONS[idx % DEFAULT_ICONS.length];
             return (
-              <motion.div
-                key={service._id}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: idx * 0.05 }}
-                className="art-card group hover:border-art-blue relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-art-yellow/5 rounded-bl-full -z-10 group-hover:bg-art-blue/5 transition-colors" />
-                
-                <div className="w-14 h-14 art-accent-blue rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                   <IconEl className="w-7 h-7" />
-                </div>
+              <div key={service._id} className="art-card group bg-[#0a0a0a] border-zinc-800/50 hover:border-zinc-700">
+                 <div className="flex justify-between items-start mb-8">
+                    <span className="text-sm font-black text-zinc-800 group-hover:text-zinc-600 transition-colors">0{idx + 1}</span>
+                 </div>
+                 
+                 <div className="mb-8">
+                    <div className="w-14 h-14 bg-zinc-900 rounded-xl flex items-center justify-center border border-zinc-800 group-hover:border-zinc-600 group-hover:bg-zinc-800 transition-all shadow-sm">
+                       <IconEl className="w-6 h-6 text-art-blue" />
+                    </div>
+                 </div>
 
-                <div className="flex items-center gap-3 mb-4">
-                   <div className="w-8 h-0.5 bg-art-dark" />
-                   <h2 className="text-xs font-black uppercase tracking-widest text-art-blue">{service.title}</h2>
-                </div>
+                 <h3 className="text-2xl font-black text-white mb-4 group-hover:text-art-yellow transition-colors">{service.title}</h3>
+                 <p className="text-sm text-zinc-500 leading-relaxed uppercase mb-10 max-w-sm">
+                    {service.description}
+                 </p>
 
-                <h3 className="text-2xl font-black mb-6 leading-tight uppercase group-hover:text-art-dark transition-colors">
-                  {service.title.split(' ').join('\n')}
-                </h3>
-
-                <p className="text-xs font-medium text-gray-500 leading-relaxed uppercase border-t-2 border-dashed border-gray-100 pt-6">
-                  {service.description}
-                </p>
-
-                <div className="mt-8 flex justify-end">
-                   <div className="w-10 h-10 rounded-full border-2 border-art-dark flex items-center justify-center group-hover:bg-art-dark group-hover:text-white transition-all">
-                      <ArrowRight className="w-4 h-4" />
-                   </div>
-                </div>
-              </motion.div>
+                 <div className="flex flex-wrap gap-2 mt-auto">
+                    {["React", "AI", "Modern Tooling"].map((tag) => (
+                       <span key={tag} className="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-bold text-zinc-400 uppercase tracking-tight">
+                         {tag}
+                       </span>
+                    ))}
+                 </div>
+              </div>
             );
-          })}
-        </div>
-      )}
+          })
+        )}
+      </div>
     </div>
   );
 }

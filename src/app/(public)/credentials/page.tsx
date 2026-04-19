@@ -73,139 +73,91 @@ export default function CredentialsPage() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-      {/* About Me Section - Editorial Style */}
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="art-card mb-12 relative overflow-hidden"
-      >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-art-yellow/10 rounded-bl-full -z-10" />
-        <div className="flex items-center gap-4 mb-8">
-          <SectionLabel>Curriculum Vitae</SectionLabel>
-          <div className="h-0.5 flex-1 bg-art-dark/5" />
-        </div>
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="mb-12">
+        <div className="section-label">BACKGROUND</div>
+        <h1 className="editorial-title text-white mb-8">
+          EDUCATION &<br />
+          <span className="text-zinc-500">EXPERIENCE</span>
+        </h1>
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4">
-            <h1 className="text-6xl font-black leading-[0.85] tracking-tighter uppercase">
-              The<br />
-              <span className="text-art-blue italic">Story</span><br />
-              So Far
-            </h1>
-          </div>
-          <div className="lg:col-span-8">
-            <p className="text-xl text-gray-500 font-medium leading-relaxed italic border-l-4 border-art-yellow pl-6">
-              {overview || "Crafting the future through code, design, and relentless innovation."}
+        {overview && (
+          <div className="art-card border-l-4 border-l-art-yellow py-8 px-10 mb-16 max-w-4xl">
+            <p className="text-lg text-zinc-300 font-medium leading-relaxed">
+              <span className="text-white font-black uppercase mr-2">Prathamesh Gadewar —</span>
+              {overview}
             </p>
           </div>
-        </div>
-      </motion.div>
+        )}
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Education Column */}
-        <motion.div
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-        >
-          <h2 className="text-4xl font-black mb-10 flex items-center gap-4">
-            <div className="w-12 h-12 art-accent-blue rounded-xl flex items-center justify-center shrink-0">
-              <GraduationCap className="w-6 h-6" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16">
+        {/* Education Section */}
+        <div>
+          <h2 className="text-2xl font-black mb-8 flex items-center gap-4 text-white uppercase">
+            <div className="w-10 h-10 bg-yellow-400/20 rounded-xl flex items-center justify-center">
+              <GraduationCap className="w-5 h-5 text-art-yellow" />
             </div>
-            EDUCATION
+            Education
           </h2>
 
-          {loading ? (
-             <div className="space-y-8">
-                {[1, 2].map(i => <div key={i} className="h-32 art-card animate-pulse bg-gray-50" />)}
-             </div>
-          ) : education.length === 0 ? (
-            <div className="art-card italic text-gray-400">No records found.</div>
-          ) : (
-            <div className="space-y-0">
-              {education.map((edu) => (
-                <TimelineItem key={edu._id} color="yellow">
-                  <div className="art-card group hover:scale-[1.02] transition-transform">
-                    <div className="flex gap-4">
-                      {edu.logo && (
-                        <div className="w-16 h-16 rounded-xl bg-gray-50 p-2 border-2 border-art-dark overflow-hidden shrink-0 shadow-[4px_4px_0px_#1e293b]">
-                          <img src={edu.logo} alt={edu.institution} className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all" />
-                        </div>
-                      )}
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start gap-4 mb-2">
-                          <h3 className="text-lg font-black leading-tight uppercase group-hover:text-art-blue transition-colors">{edu.degree}</h3>
-                          {edu.score && (
-                            <span className="art-accent-yellow px-2 py-0.5 text-[10px] font-black rounded border-2 border-art-dark">
-                              {edu.score}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm font-bold text-gray-400 mb-4">{edu.institution}</p>
-                        <div className="flex flex-wrap items-center gap-4">
-                           <div className="bg-art-dark text-white text-[10px] font-black px-2 py-1 rounded">
-                              {edu.startYear} - {edu.endYear}
-                           </div>
-                           {edu.link && (
-                             <a href={edu.link} target="_blank" className="text-[10px] font-black text-art-blue hover:underline flex items-center gap-1">
-                               OFFICIAL LINK <ExternalLink className="w-3 h-3" />
-                             </a>
-                           )}
-                        </div>
-                      </div>
+          <div className="space-y-6">
+            {loading ? (
+              [1, 2].map(i => <div key={i} className="h-40 art-card animate-pulse" />)
+            ) : (
+              education.map((edu) => (
+                <div key={edu._id} className="art-card group relative overflow-hidden">
+                  <div className="border-l-2 border-zinc-700 pl-6 group-hover:border-art-yellow transition-colors">
+                    <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">{edu.institution}</p>
+                    <h3 className="text-xl font-bold text-white mb-2">{edu.degree}</h3>
+                    <p className="text-sm text-zinc-400 font-medium mb-4 uppercase tracking-tighter">{edu.specialization || "Engineering"}</p>
+                    
+                    <div className="flex items-center gap-3">
+                       <span className="bg-zinc-800 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">
+                          {edu.startYear} — {edu.endYear}
+                       </span>
+                       {edu.score && (
+                         <span className="text-[10px] font-bold text-zinc-500 uppercase">{edu.score}</span>
+                       )}
                     </div>
                   </div>
-                </TimelineItem>
-              ))}
-            </div>
-          )}
-        </motion.div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
 
-        {/* Experience Column */}
-        <motion.div
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <h2 className="text-4xl font-black mb-10 flex items-center gap-4">
-            <div className="w-12 h-12 art-accent-yellow rounded-xl flex items-center justify-center shrink-0">
-              <Briefcase className="w-6 h-6 text-art-dark" />
+        {/* Experience Section */}
+        <div>
+          <h2 className="text-2xl font-black mb-8 flex items-center gap-4 text-white uppercase">
+            <div className="w-10 h-10 bg-blue-400/10 rounded-xl flex items-center justify-center">
+              <Briefcase className="w-5 h-5 text-art-blue" />
             </div>
-            EXPERIENCE
+            Experience
           </h2>
 
-          {loading ? (
-             <div className="space-y-8">
-                {[1, 2].map(i => <div key={i} className="h-32 art-card animate-pulse bg-gray-50" />)}
-             </div>
-          ) : experience.length === 0 ? (
-            <div className="art-card italic text-gray-400">No records found.</div>
-          ) : (
-            <div className="space-y-0">
-              {experience.map((exp) => (
-                <TimelineItem key={exp._id} color="purple">
-                  <div className="art-card group hover:scale-[1.02] transition-transform">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-lg font-black leading-tight uppercase group-hover:text-art-blue transition-colors">{exp.role}</h3>
-                        <p className="text-sm font-bold text-gray-400">{exp.company}</p>
-                      </div>
-                      <div className="text-[10px] font-black bg-art-blue text-white px-2 py-1 rounded shadow-[2px_2px_0px_#1e293b]">
-                        {exp.duration}
-                      </div>
-                    </div>
+          <div className="space-y-6">
+            {loading ? (
+              [1, 2].map(i => <div key={i} className="h-40 art-card animate-pulse" />)
+            ) : (
+              experience.map((exp) => (
+                <div key={exp._id} className="art-card group relative overflow-hidden">
+                  <div className="border-l-2 border-zinc-700 pl-6 group-hover:border-art-blue transition-colors">
+                    <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">{exp.company}</p>
+                    <h3 className="text-xl font-bold text-white mb-1">{exp.role}</h3>
+                    <p className="text-sm text-zinc-400 font-medium mb-4 uppercase tracking-tighter">{exp.duration}</p>
+                    
                     {exp.description && (
-                      <p className="text-xs font-medium text-gray-500 leading-relaxed uppercase border-t-2 border-dashed border-gray-100 pt-4 mt-4">
-                        {exp.description}
+                      <p className="text-xs text-zinc-500 leading-relaxed max-w-md line-clamp-3 group-hover:text-zinc-300 transition-colors uppercase">
+                         {exp.description}
                       </p>
                     )}
                   </div>
-                </TimelineItem>
-              ))}
-            </div>
-          )}
-        </motion.div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

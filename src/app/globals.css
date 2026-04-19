@@ -2,11 +2,13 @@
 
 @theme {
   --color-art-yellow: #fde047;
-  --color-art-blue: #2563eb;
-  --color-art-dark: #1e293b;
-  --color-art-bg: #ffffff;
-  --color-text-primary: #1e1e1e;
-  --color-text-secondary: #4b5563;
+  --color-art-blue: #3b82f6;
+  --color-art-dark: #000000;
+  --color-art-card: #111111;
+  --color-art-border: #222222;
+  --color-art-bg: #000000;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-serif), ui-serif, Georgia, serif;
@@ -19,10 +21,10 @@
 *,
 *::before,
 *::after {
-  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, color 0.4s ease;
 }
 
-/* ─── LIGHT MODE body ──────────────────────────────────────────── */
+/* ─── Base Styles ──────────────────────────────────────────── */
 @layer base {
   body {
     color: var(--color-text-primary);
@@ -32,99 +34,105 @@
   }
 
   h1, h2, h3, h4 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-weight: 800;
+    letter-spacing: -0.02em;
   }
 }
 
-/* ─── DARK MODE body ──────────────────────────────────────────────────────── */
+/* ─── Dark Mode Specifics ──────────────────────────────────────────────────────── */
 .dark body {
-  color: #f1f5f9;
-  background-color: #0d0d0d;
+  color: #ffffff;
+  background-color: #000000;
 }
 
-/* ─── Artistic Editorial Utilities ────────────────────────────────────────── */
+/* ─── Minimalist UI Utilities ────────────────────────────────────────── */
 @layer utilities {
   .art-card {
-    background: white;
-    border: 3px solid var(--color-art-dark);
-    box-shadow: 8px 8px 0px var(--color-art-dark);
-    border-radius: 0.5rem;
+    background: #111111;
+    border: 1px solid #222222;
+    border-radius: 1rem;
     padding: 1.5rem;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .art-card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 12px 12px 0px var(--color-art-yellow);
+    border-color: #444444;
+    background: #161616;
   }
 
-  .dark .art-card {
-    background: #1a1a1a;
-    border-color: #4b5563;
-    box-shadow: 8px 8px 0px #4b5563;
-  }
-  
-  .dark .art-card:hover {
-    box-shadow: 12px 12px 0px var(--color-art-blue);
+  .art-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black border border-zinc-800 text-zinc-400;
   }
 
-  .art-accent-yellow {
-    background-color: var(--color-art-yellow);
-    border: 2px solid var(--color-art-dark);
-    box-shadow: 4px 4px 0px var(--color-art-dark);
+  .art-badge-yellow {
+    @apply bg-art-yellow text-black border-none;
   }
 
-  .art-accent-blue {
-    background-color: var(--color-art-blue);
-    color: white;
-    border: 2px solid var(--color-art-dark);
-    box-shadow: 4px 4px 0px var(--color-art-dark);
+  .btn-primary {
+    @apply bg-white text-black px-6 py-2 rounded-lg font-bold transition-all hover:bg-zinc-200;
   }
 
-  /* Experimental hand-drawn effect for borders */
-  .sketchy-border {
-    border: 2px solid var(--color-art-dark);
-    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  .btn-outline {
+    @apply bg-transparent text-white border border-zinc-700 px-6 py-2 rounded-lg font-bold transition-all hover:bg-white/5 hover:border-white;
   }
 
-  .glass-nav {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    border-bottom: 2px solid var(--color-art-dark);
-    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.05);
+  .nav-fixed-bottom {
+    @apply fixed bottom-8 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-xl border border-zinc-800 rounded-2xl px-8 py-4 flex items-center gap-12 z-50;
   }
 
-  .dark .glass-nav {
-    background: rgba(13, 13, 13, 0.8);
-    border-color: #4b5563;
-  }
-
-  /* Artistic background elements */
-  .blob {
-    position: absolute;
-    filter: blur(40px);
-    z-index: -1;
-    opacity: 0.4;
-    border-radius: 50%;
-  }
-
-  .blob-yellow { background-color: var(--color-art-yellow); }
-  .blob-blue { background-color: var(--color-art-blue); }
-
-  /* Section Titles */
   .editorial-title {
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 0.9;
-    letter-spacing: -0.05em;
+    font-size: clamp(2rem, 6vw, 5rem);
+    line-height: 1.1;
+    font-weight: 900;
     text-transform: uppercase;
   }
 
-  .editorial-subtitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-art-blue);
+  .section-label {
+    @apply text-xs font-black uppercase tracking-[0.3em] mb-4 text-art-yellow;
+  }
+
+  /* Progress bar styling */
+  .progress-container {
+    @apply h-1 w-full bg-zinc-800 rounded-full overflow-hidden;
+  }
+
+  .progress-bar {
+    @apply h-full bg-white rounded-full transition-all duration-1000;
+  }
+
+  .progress-bar-yellow {
+    @apply bg-art-yellow;
   }
 }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: fit-content;
+  animation: marquee 30s linear infinite;
+}
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+

@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Sun, Moon, Home } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -13,54 +12,54 @@ export default function TopNav() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // Force dark mode for this specific UI request
+    setTheme("dark");
+  }, [setTheme]);
 
   // Format the title from pathname
   let title = "Home";
   if (pathname !== "/") {
     const segment = pathname.split("/").pop() || "";
     title = segment.charAt(0).toUpperCase() + segment.slice(1);
+    if (title === "Certifications") title = "Credentials";
   }
 
-  const isDark = theme === "dark";
-
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-11/12 max-w-6xl z-50">
-      <div className="glass-nav px-6 py-3 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-zinc-800">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="font-bold text-2xl tracking-tighter text-gray-900 dark:text-white">
-          P<span className="text-gray-400">G</span>
+        <Link href="/" className="font-extrabold text-2xl tracking-tighter text-white">
+          PG.
         </Link>
 
         {/* Centered Title */}
-        <div className="absolute left-1/2 -translate-x-1/2 font-semibold text-gray-800 dark:text-white/80 text-sm">
+        <div className="absolute left-1/2 -translate-x-1/2 font-medium text-zinc-400 text-sm tracking-wide">
           {title}
         </div>
 
-        {/* Actions */}
+        {/* Decorative Circle Indicators */}
         <div className="flex items-center gap-2">
-          {mounted && (
-            <button
-              id="theme-toggle"
-              onClick={() => setTheme(isDark ? "light" : "dark")}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10"
-              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-gray-700" />
-              )}
-            </button>
-          )}
-          <Link
-            href="/"
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10"
-          >
-            <Home className="w-5 h-5 text-gray-700 dark:text-white/70" />
-          </Link>
+          <div className="w-2.5 h-2.5 rounded-full border border-zinc-700" />
+          <div className="w-2.5 h-2.5 rounded-full border border-zinc-700" />
         </div>
       </div>
+      
+      {/* Marquee/Ticker like line if on home */}
+      {pathname === "/" && (
+        <div className="bg-white py-1.5 overflow-hidden whitespace-nowrap">
+          <div className="flex gap-12 animate-marquee text-[10px] font-black uppercase text-black">
+            {[...Array(10)].map((_, i) => (
+              <span key={i} className="flex gap-12">
+                <span>OPEN TO WORK</span>
+                <span className="text-zinc-300">•</span>
+                <span>FULL STACK</span>
+                <span className="text-zinc-300">•</span>
+                <span>AI/ML</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

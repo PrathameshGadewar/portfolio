@@ -19,12 +19,11 @@ export default function BottomDock() {
 
   return (
     <motion.div
-      initial={{ y: 100, opacity: 0 }}
+      initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-t border-zinc-800"
     >
-      <div className="glass-nav px-3 py-2.5 flex items-center gap-1 bg-[#e4e4e9]/80 dark:bg-[#1a1828]/80 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-lg">
+      <div className="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between gap-1">
         {dockItems.map((item) => {
           const isActive =
             pathname === item.href ||
@@ -33,15 +32,20 @@ export default function BottomDock() {
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex flex-col items-center gap-0.5 p-2.5 rounded-2xl transition-all duration-300 group ${
+              className={`flex flex-col items-center justify-center w-full py-2 rounded-xl transition-all group ${
                 isActive
-                  ? "text-blue-600 dark:text-blue-400 bg-white/70 dark:bg-white/10 shadow-sm"
-                  : "text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10"
+                  ? "text-white"
+                  : "text-zinc-500 hover:text-zinc-300"
               }`}
-              title={item.name}
             >
-              <item.icon className="w-5 h-5" />
-              <span className="text-[9px] font-semibold leading-none opacity-70">{item.name}</span>
+              <div className={`p-2 rounded-lg mb-1 transition-all ${
+                isActive ? "bg-zinc-800" : "bg-transparent"
+              }`}>
+                <item.icon className="w-5 h-5" />
+              </div>
+              <span className={`text-[10px] font-bold uppercase tracking-tight ${
+                isActive ? "opacity-100" : "opacity-50"
+              }`}>{item.name}</span>
             </Link>
           );
         })}

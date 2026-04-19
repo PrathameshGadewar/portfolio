@@ -32,6 +32,14 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+const PROFICIENCY = [
+  { name: "Python", level: 90, color: "bg-white" },
+  { name: "React / JS", level: 82, color: "bg-white" },
+  { name: "ML / AI", level: 78, color: "bg-white" },
+  { name: "Figma / UI", level: 88, color: "bg-white" },
+  { name: "Java / C++", level: 72, color: "bg-art-yellow" },
+];
+
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,64 +62,58 @@ export default function SkillsPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-      <div className="mb-16">
-        <SectionLabel>Competencies</SectionLabel>
-        <h1 className="editorial-title text-art-dark dark:text-white">CREATIVE<br/><span className="text-art-blue">TOOLKIT</span></h1>
-        <p className="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest italic">"The tools of the craft, mastered for perfection."</p>
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="mb-12">
+        <div className="section-label">COMPETENCIES</div>
+        <h1 className="editorial-title text-white mb-8">
+          CREATIVE<br />
+          <span className="text-zinc-500">TOOLKIT</span>
+        </h1>
       </div>
 
-      {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {[1, 2].map(i => <div key={i} className="art-card h-64 animate-pulse bg-gray-50" />)}
-        </div>
-      ) : skills.length === 0 ? (
-        <div className="art-card p-20 text-center">
-             <h2 className="text-4xl font-black text-gray-200 uppercase tracking-tighter italic">"The toolkit is currently empty"</h2>
-             <p className="mt-4 text-xs font-bold text-gray-400">CHECK BACK LATER FOR UPDATED SPECIALIZATIONS</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {Object.entries(grouped).map(([category, items], idx) => (
-            <motion.div
-              key={category}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: idx * 0.05 }}
-              className="flex flex-col h-full"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                 <div className="h-0.5 flex-1 bg-art-dark" />
-                 <h2 className="text-xs font-black uppercase tracking-[0.2em] text-art-blue">{category}</h2>
-                 <div className="h-0.5 w-4 bg-art-dark" />
-              </div>
-              
-              <div className="art-card h-full grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {items.map((skill, sIdx) => (
-                  <motion.div
-                    key={skill._id}
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: idx * 0.05 + sIdx * 0.02 }}
-                    className="flex flex-col items-center justify-center p-3 border-2 border-dashed border-gray-200 rounded-lg group hover:border-art-blue transition-colors"
-                  >
-                    <div className="w-10 h-10 mb-2 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all group-hover:scale-110">
-                      {skill.icon ? (
-                         skill.icon.startsWith("http") || skill.icon.startsWith("/") ? (
-                           <img src={skill.icon} alt="" className="w-full h-full object-contain" />
-                         ) : <span className="text-xl">{skill.icon}</span>
-                      ) : <Sparkles className="w-6 h-6 text-gray-200" />}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+        {loading ? (
+          [1, 2, 3].map(i => <div key={i} className="art-card h-64 animate-pulse bg-zinc-900" />)
+        ) : (
+          Object.entries(grouped).map(([category, items]) => (
+            <div key={category} className="art-card bg-[#0a0a0a] border-zinc-800/50">
+               <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-6 border-b border-zinc-800 pb-2">
+                  {category}
+               </h2>
+               <div className="grid grid-cols-3 gap-3">
+                  {items.map((skill) => (
+                    <div key={skill._id} className="flex flex-col items-center justify-center p-3 bg-zinc-900/50 rounded-xl border border-zinc-800/50 group hover:border-art-yellow transition-all">
+                       <span className="text-2xl mb-2 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all">{skill.icon || "⚒️"}</span>
+                       <span className="text-[9px] font-black uppercase text-zinc-400 group-hover:text-white text-center line-clamp-1">{skill.name}</span>
                     </div>
-                    <span className="text-[10px] font-black uppercase text-center tracking-tighter group-hover:text-art-blue">
-                        {skill.name}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      )}
+                  ))}
+               </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Proficiency Levels */}
+      <div className="art-card bg-[#0a0a0a] border-zinc-800/50 p-10">
+         <h2 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500 mb-10">Proficiency Levels</h2>
+         <div className="space-y-10">
+            {PROFICIENCY.map((skill) => (
+               <div key={skill.name} className="flex items-center gap-8">
+                  <span className="w-24 text-xs font-black text-white uppercase tracking-tighter">{skill.name}</span>
+                  <div className="flex-1 h-1 bg-zinc-800 rounded-full overflow-hidden">
+                     <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.level}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        className={`h-full ${skill.color}`} 
+                     />
+                  </div>
+                  <span className="w-10 text-[10px] font-black text-zinc-500 text-right uppercase tracking-tighter">{skill.level}%</span>
+               </div>
+            ))}
+         </div>
+      </div>
     </div>
   );
 }
