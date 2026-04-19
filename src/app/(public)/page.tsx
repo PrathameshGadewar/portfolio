@@ -94,8 +94,10 @@ export default function HomePage() {
            </div>
            
            <h1 className="editorial-title mb-10">
+              <span className="block text-foreground mb-2 uppercase leading-[0.9] tracking-tighter transition-all">
+                Hi everyone,
+              </span>
               <span className="block text-[#D0DFF2] mb-4 uppercase leading-[0.9] tracking-tighter transition-all">
-                Hi everyone,<br/>
                 I'm {profile?.name || "Prathamesh"}
               </span>
            </h1>
