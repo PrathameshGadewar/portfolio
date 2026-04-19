@@ -86,20 +86,20 @@ export default function SkillsPage() {
                </h2>
                <div className="grid grid-cols-3 gap-4">
                   {items.map((skill) => (
-                    <div key={skill._id} className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl group hover:border-art-yellow hover:scale-[1.05] transition-all shadow-sm">
-                       <div className="w-10 h-10 mb-3 relative flex items-center justify-center">
+                    <div key={skill._id} className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl group hover:border-art-yellow hover:scale-[1.05] transition-all shadow-sm active:scale-95">
+                       <div className="w-12 h-12 mb-3 relative flex items-center justify-center transition-transform group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(253,224,71,0.3)]">
                           {skill.icon && (skill.icon.startsWith("http") || skill.icon.startsWith("/")) ? (
                             <Image 
                               src={skill.icon} 
                               alt={skill.name} 
                               fill 
-                              className="object-contain grayscale group-hover:grayscale-0 transition-all" 
+                              className="object-contain transition-all" 
                             />
                           ) : (
-                            <span className="text-2xl grayscale group-hover:grayscale-0 transition-all">{skill.icon || "⚒️"}</span>
+                            <span className="text-3xl transition-all">{skill.icon || "⚒️"}</span>
                           )}
                        </div>
-                       <span className="text-[9px] font-black uppercase text-zinc-500 group-hover:text-foreground text-center line-clamp-1 tracking-tighter">{skill.name}</span>
+                       <span className="text-[9px] font-black uppercase text-zinc-500 group-hover:text-foreground text-center line-clamp-1 tracking-tighter transition-colors">{skill.name}</span>
                     </div>
                   ))}
                </div>
