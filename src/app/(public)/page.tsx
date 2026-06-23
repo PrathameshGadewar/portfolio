@@ -93,6 +93,14 @@ interface Patent {
   status?: string;
 }
 
+interface Achievement {
+  _id: string;
+  title: string;
+  description?: string;
+  images: string[];
+  year?: string;
+}
+
 const getSkillFill = (name: string) => {
   const n = name.toLowerCase();
   if (n.includes("python")) return 90;
@@ -171,6 +179,7 @@ export default function HomePage() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [publications, setPublications] = useState<Publication[]>([]);
   const [patents, setPatents] = useState<Patent[]>([]);
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Modal State
@@ -212,9 +221,10 @@ export default function HomePage() {
       fetch("/api/portfolio/service").then((r) => r.json()).catch(() => []),
       fetch("/api/portfolio/skill").then((r) => r.json()).catch(() => []),
       fetch("/api/portfolio/publication").then((r) => r.json()).catch(() => []),
-      fetch("/api/portfolio/patent").then((r) => r.json()).catch(() => [])
+      fetch("/api/portfolio/patent").then((r) => r.json()).catch(() => []),
+      fetch("/api/portfolio/achievement").then((r) => r.json()).catch(() => [])
     ])
-      .then(([profileData, eduData, expData, projData, certData, servData, skillData, pubData, patData]) => {
+      .then(([profileData, eduData, expData, projData, certData, servData, skillData, pubData, patData, achData]) => {
         if (Array.isArray(profileData) && profileData.length > 0) {
           setProfile(profileData[0]);
         } else if (profileData && !Array.isArray(profileData)) {
@@ -228,6 +238,7 @@ export default function HomePage() {
         if (Array.isArray(skillData)) setSkills(skillData);
         if (Array.isArray(pubData)) setPublications(pubData);
         if (Array.isArray(patData)) setPatents(patData);
+        if (Array.isArray(achData)) setAchievements(achData);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -699,42 +710,114 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ============ CERTIFICATIONS ============ */}
+        {/* ============ CERTIFICATIONS & ACHIEVEMENTS ============ */}
         <section id="certifications" className="port-section">
           <div className="port-container">
-            <p className="eyebrow reveal"><span className="num">§05</span> AWARDS</p>
+            <p className="eyebrow reveal"><span className="num">§05</span> AWARDS &amp; ACHIEVEMENTS</p>
             <h2 className="section-title reveal port-h">Certifications &amp; Achievements</h2>
             <p className="section-sub reveal">Credentials across AI/ML, cloud, programming, internships, and competitions.</p>
 
-            <div className="cert-tabs reveal">
-              <button onClick={() => setCertFilter("all")} className={`filter-btn ${certFilter === "all" ? "active" : ""}`}>All</button>
-              <button onClick={() => setCertFilter("ai")} className={`filter-btn ${certFilter === "ai" ? "active" : ""}`}>AI &amp; ML</button>
-              <button onClick={() => setCertFilter("cloud")} className={`filter-btn ${certFilter === "cloud" ? "active" : ""}`}>Cloud</button>
-              <button onClick={() => setCertFilter("prog")} className={`filter-btn ${certFilter === "prog" ? "active" : ""}`}>Programming</button>
-              <button onClick={() => setCertFilter("intern")} className={`filter-btn ${certFilter === "intern" ? "active" : ""}`}>Internships</button>
-              <button onClick={() => setCertFilter("comp")} className={`filter-btn ${certFilter === "comp" ? "active" : ""}`}>Competitions</button>
-            </div>
-
-            <div className="cert-grid" id="cert-grid">
-              {filteredCerts.map((cert, idx) => (
-                <div 
-                  key={cert._id || idx} 
-                  onClick={() => cert.image ? setSelectedCertImage(cert.image) : cert.link ? window.open(cert.link, "_blank") : null}
-                  className={`cert-card reveal ${(cert.year === "Featured" || idx < 2) ? "cert-featured" : ""} ${cert.image || cert.link ? "cursor-pointer transition-transform hover:scale-[1.02]" : ""}`}
-                >
-                  <div className="cert-icon flex justify-between items-center">
-                    <span>{cert.year === "Featured" ? "Featured Credentials" : "Academic Credentials"}</span>
-                    {cert.image ? (
-                      <span className="text-[10px] font-mono text-gold px-2 py-0.5 rounded border border-gold/30 bg-gold/10">View Photo 👁</span>
-                    ) : cert.link ? (
-                      <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded border border-border bg-surface">Verify Link ↗</span>
-                    ) : null}
-                  </div>
-                  <h3 className="cert-title port-h">{cert.title}</h3>
-                  <div className="cert-org">{cert.organization}</div>
-                  <div className="cert-date">{cert.year}</div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">
+              {/* Left Column: Achievements Feed */}
+              <div className="lg:col-span-1 flex flex-col h-[650px] bg-zinc-900/40 dark:bg-zinc-950/20 border border-border rounded-[14px] p-6 overflow-hidden reveal">
+                <div className="flex items-center justify-between mb-4 shrink-0">
+                  <h3 className="text-xl font-bold font-display text-white">Achievements Feed</h3>
+                  <span className="text-[10px] font-mono text-gold px-2 py-0.5 rounded border border-gold/30 bg-gold/10 uppercase tracking-wider">Scroll</span>
                 </div>
-              ))}
+                
+                <div className="flex-1 overflow-y-auto space-y-4 pr-1 custom-scrollbar">
+                  {achievements.map((ach, idx) => (
+                    <div key={ach._id || idx} className="p-4 bg-surface/50 rounded-xl border border-border/80 flex flex-col gap-2 hover:border-gold-soft transition-colors">
+                      <div className="flex items-start justify-between">
+                        <h4 className="font-bold text-sm text-white font-display leading-tight">{ach.title}</h4>
+                        {ach.year && <span className="text-[10px] font-mono text-zinc-500 whitespace-nowrap ml-2">{ach.year}</span>}
+                      </div>
+                      {ach.description && <p className="text-[12px] text-zinc-400 leading-relaxed">{ach.description}</p>}
+                      
+                      {ach.images && ach.images.length > 0 && (
+                        <div className="relative group mt-1">
+                          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none scroll-smooth" id={`gallery-${ach._id || idx}`}>
+                            {ach.images.map((img, imgIdx) => (
+                              <img 
+                                key={imgIdx}
+                                src={img}
+                                alt={`Achievement photo ${imgIdx + 1}`}
+                                onClick={() => setSelectedCertImage(img)}
+                                className="w-16 h-16 object-cover rounded-lg border border-border hover:border-gold cursor-pointer shrink-0 transition-transform hover:scale-105"
+                              />
+                            ))}
+                          </div>
+                          
+                          {ach.images.length > 2 && (
+                            <>
+                              <button 
+                                onClick={() => {
+                                  const container = document.getElementById(`gallery-${ach._id || idx}`);
+                                  if (container) container.scrollLeft -= 80;
+                                }}
+                                className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/60 border border-white/10 text-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
+                              >
+                                <span>&larr;</span>
+                              </button>
+                              <button 
+                                onClick={() => {
+                                  const container = document.getElementById(`gallery-${ach._id || idx}`);
+                                  if (container) container.scrollLeft += 80;
+                                }}
+                                className="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/60 border border-white/10 text-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
+                              >
+                                <span>&rarr;</span>
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {achievements.length === 0 && (
+                    <div className="text-zinc-500 font-mono text-xs text-center py-10">No achievements recorded. Add them in the Admin Panel!</div>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column: Certifications Grid */}
+              <div className="lg:col-span-2 flex flex-col h-[650px] reveal">
+                <div className="cert-tabs mb-6 shrink-0">
+                  <button onClick={() => setCertFilter("all")} className={`filter-btn ${certFilter === "all" ? "active" : ""}`}>All</button>
+                  <button onClick={() => setCertFilter("ai")} className={`filter-btn ${certFilter === "ai" ? "active" : ""}`}>AI &amp; ML</button>
+                  <button onClick={() => setCertFilter("cloud")} className={`filter-btn ${certFilter === "cloud" ? "active" : ""}`}>Cloud</button>
+                  <button onClick={() => setCertFilter("prog")} className={`filter-btn ${certFilter === "prog" ? "active" : ""}`}>Programming</button>
+                  <button onClick={() => setCertFilter("intern")} className={`filter-btn ${certFilter === "intern" ? "active" : ""}`}>Internships</button>
+                  <button onClick={() => setCertFilter("comp")} className={`filter-btn ${certFilter === "comp" ? "active" : ""}`}>Competitions</button>
+                </div>
+
+                <div className="flex-1 overflow-y-auto pr-1 custom-scrollbar">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {filteredCerts.map((cert, idx) => (
+                      <div 
+                        key={cert._id || idx} 
+                        onClick={() => cert.image ? setSelectedCertImage(cert.image) : cert.link ? window.open(cert.link, "_blank") : null}
+                        className={`cert-card ${(cert.year === "Featured" || idx < 2) ? "cert-featured" : ""} ${cert.image || cert.link ? "cursor-pointer transition-transform hover:scale-[1.02]" : ""}`}
+                      >
+                        <div className="cert-icon flex justify-between items-center">
+                          <span>{cert.year === "Featured" ? "Featured Credentials" : "Academic Credentials"}</span>
+                          {cert.image ? (
+                            <span className="text-[10px] font-mono text-gold px-2 py-0.5 rounded border border-gold/30 bg-gold/10">View Photo 👁</span>
+                          ) : cert.link ? (
+                            <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded border border-border bg-surface">Verify Link ↗</span>
+                          ) : null}
+                        </div>
+                        <h3 className="cert-title port-h text-white">{cert.title}</h3>
+                        <div className="cert-org">{cert.organization}</div>
+                        <div className="cert-date">{cert.year}</div>
+                      </div>
+                    ))}
+                    {filteredCerts.length === 0 && (
+                      <div className="col-span-full text-zinc-500 font-mono text-xs text-center py-10">No certifications found.</div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

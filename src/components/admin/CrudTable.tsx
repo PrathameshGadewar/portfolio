@@ -8,6 +8,7 @@ const LONG_FIELDS = ["description", "bio", "overview", "message", "content"];
 const ARRAY_FIELDS = ["tags", "roles"];
 const IMAGE_FIELDS = ["image", "icon", "profileImage", "logo", "thumbnail"];
 const FILE_FIELDS = ["file", "document"];
+const MULTI_IMAGE_FIELDS = ["images", "photos"];
 
 export default function CrudTable({ 
   modelName, 
@@ -62,7 +63,15 @@ export default function CrudTable({
   };
 
   const openAdd = () => {
-    setFormData({});
+    const fd: any = {};
+    fields.forEach((f) => {
+      if (MULTI_IMAGE_FIELDS.includes(f)) {
+        fd[f] = [];
+      } else {
+        fd[f] = "";
+      }
+    });
+    setFormData(fd);
     setEditingId(null);
     setFormError(null);
     setShowModal(true);
@@ -148,10 +157,41 @@ export default function CrudTable({
     }
   };
 
+  const handleMultiImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingField(`${field}_add`);
+    const formDataUpload = new FormData();
+    formDataUpload.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formDataUpload,
+      });
+      const data = await res.json();
+      if (data.url) {
+        const currentList = Array.isArray(formData[field]) ? formData[field] : [];
+        setFormData({ ...formData, [field]: [...currentList, data.url] });
+      } else {
+        throw new Error(data.error || "Upload failed");
+      }
+    } catch (err: any) {
+      alert("Upload failed: " + err.message);
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
   const openEdit = (item: any) => {
     const fd: any = {};
     fields.forEach((f) => {
-      fd[f] = Array.isArray(item[f]) ? item[f].join(", ") : item[f] || "";
+      if (MULTI_IMAGE_FIELDS.includes(f)) {
+        fd[f] = Array.isArray(item[f]) ? item[f] : [];
+      } else {
+        fd[f] = Array.isArray(item[f]) ? item[f].join(", ") : item[f] || "";
+      }
     });
     setFormData(fd);
     setEditingId(item._id);
@@ -350,6 +390,7 @@ export default function CrudTable({
                   const isArray = ARRAY_FIELDS.includes(field);
                   const isImage = IMAGE_FIELDS.includes(field);
                   const isFile = FILE_FIELDS.includes(field);
+                  const isMultiImage = MULTI_IMAGE_FIELDS.includes(field);
 
                   return (
                     <div key={field}>
@@ -474,6 +515,80 @@ export default function CrudTable({
                             onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                             placeholder="Or paste external URL..."
                           />
+                        </div>
+                      ) : isMultiImage ? (
+                        <div className="space-y-3">
+                          <div className="flex flex-wrap gap-3">
+                            {(formData[field] || []).map((imgUrl: string, imgIdx: number) => (
+                              <div key={imgIdx} className="relative group w-20 h-20 rounded-2xl bg-gray-50 border border-gray-200 overflow-hidden flex items-center justify-center">
+                                <img 
+                                  src={imgUrl} 
+                                  className="w-full h-full object-cover" 
+                                  alt="Preview" 
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const currentList = [...(formData[field] || [])];
+                                    currentList.splice(imgIdx, 1);
+                                    setFormData({ ...formData, [field]: currentList });
+                                  }}
+                                  className="absolute top-1 right-1 p-1 bg-red-500/80 hover:bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ))}
+                            <label className="relative group w-20 h-20 rounded-2xl bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all hover:border-blue-400 cursor-pointer">
+                              {uploadingField === `${field}_add` ? (
+                                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                              ) : (
+                                <>
+                                  <Plus className="w-6 h-6 text-gray-300 group-hover:text-blue-400 transition-colors" />
+                                  <input 
+                                    type="file" 
+                                    className="hidden" 
+                                    accept="image/*"
+                                    onChange={(e) => handleMultiImageUpload(e, field)}
+                                  />
+                                </>
+                              )}
+                            </label>
+                          </div>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              id={`${field}-manual-input`}
+                              className="flex-1 px-4 py-2 border border-gray-100 rounded-lg focus:outline-none bg-gray-50/50 text-[11px] text-gray-400 placeholder:text-gray-300"
+                              placeholder="Or paste external photo URL..."
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  const val = e.currentTarget.value.trim();
+                                  if (val) {
+                                    const currentList = Array.isArray(formData[field]) ? formData[field] : [];
+                                    setFormData({ ...formData, [field]: [...currentList, val] });
+                                    e.currentTarget.value = "";
+                                  }
+                                }
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const input = document.getElementById(`${field}-manual-input`) as HTMLInputElement;
+                                if (input && input.value.trim()) {
+                                  const val = input.value.trim();
+                                  const currentList = Array.isArray(formData[field]) ? formData[field] : [];
+                                  setFormData({ ...formData, [field]: [...currentList, val] });
+                                  input.value = "";
+                                }
+                              }}
+                              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-[10px] font-bold text-gray-600 transition-colors"
+                            >
+                              Add
+                            </button>
+                          </div>
                         </div>
                       ) : (
                         <div className="relative">

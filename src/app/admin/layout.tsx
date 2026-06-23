@@ -13,6 +13,7 @@ import {
   User,
   Mail,
   Award,
+  Trophy,
   Loader2,
   ChevronRight,
   BookOpen,
@@ -30,6 +31,7 @@ const navItems = [
   { name: "Patents", href: "/admin/patent", icon: FileText },
   { name: "Skills", href: "/admin/skill", icon: Code },
   { name: "Certifications", href: "/admin/certification", icon: Award },
+  { name: "Achievements", href: "/admin/achievement", icon: Trophy },
   { name: "Messages", href: "/admin/message", icon: Mail },
 ];
 

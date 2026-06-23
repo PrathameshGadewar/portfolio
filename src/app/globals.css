@@ -1358,3 +1358,27 @@ textarea:focus-visible {
     flex-direction: column;
   }
 }
+
+/* ============ CUSTOM SCROLLBARS FOR FEED & GALLERIES ============ */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-soft);
+}
+
+/* Hide scrollbar utility for horizontal galleries */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
