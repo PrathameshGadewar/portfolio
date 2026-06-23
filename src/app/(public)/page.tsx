@@ -451,7 +451,9 @@ export default function HomePage() {
               <p className="hero-tagline">{profile?.bio || "Computer Science Engineering student building at the intersection of applied AI, data-driven products, and research — one experiment, one publication, one shipped project at a time."}</p>
               <div className="cta-row">
                 <a href="#projects" onClick={(e) => navScrollTo(e, "projects")} className="btn btn-primary">View Projects</a>
-                <button onClick={() => setIsResumeOpen(true)} className="btn btn-outline" id="resume-btn">Download Resume</button>
+                {profile?.resumeLink && (
+                  <button onClick={() => setIsResumeOpen(true)} className="btn btn-outline" id="resume-btn">Download Resume</button>
+                )}
                 <a href="#contact" onClick={(e) => navScrollTo(e, "contact")} className="btn btn-ghost">Contact Me →</a>
               </div>
             </div>
