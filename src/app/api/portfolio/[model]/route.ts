@@ -25,6 +25,18 @@ export async function GET(
     }
 
     const data = await model.find({});
+
+    if (modelName.toLowerCase() === 'profile') {
+      const optimizedData = data.map((item: any) => {
+        const doc = item.toObject ? item.toObject() : item;
+        if (doc.resumeLink && doc.resumeLink.trim().startsWith('data:')) {
+          doc.resumeLink = '/api/resume';
+        }
+        return doc;
+      });
+      return NextResponse.json(optimizedData);
+    }
+
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

@@ -44,7 +44,7 @@ export default function ResumeModal({ isOpen, onClose, resumeUrl, name }: Resume
               
               <div className="flex items-center gap-2">
                 <a 
-                  href={resumeUrl} 
+                  href={`${resumeUrl}?download=true`} 
                   download={`${name.replace(/\s+/g, '_')}_Resume.pdf`}
                   className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-white/60 transition-colors"
                   title="Download Resume"

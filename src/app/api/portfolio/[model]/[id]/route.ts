@@ -27,6 +27,13 @@ export async function PUT(
     delete payload._id;
     delete payload.__v;
 
+    if (modelName.toLowerCase() === 'profile' && payload.resumeLink === '/api/resume') {
+      const existing = await model.findById(id);
+      if (existing && existing.resumeLink) {
+        payload.resumeLink = existing.resumeLink;
+      }
+    }
+
     const updated = await model.findByIdAndUpdate(id, payload, { new: true });
     if (!updated) return NextResponse.json({ message: 'Not found' }, { status: 404 });
     return NextResponse.json(updated);

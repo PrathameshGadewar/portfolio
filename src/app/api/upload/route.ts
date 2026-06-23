@@ -20,7 +20,18 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Upload to Cloudinary using a promise to handle the stream
+    const isPdf = file.name.endsWith('.pdf') || file.type === 'application/pdf';
+    if (isPdf) {
+      const base64Data = buffer.toString('base64');
+      const dataUrl = `data:${file.type || 'application/pdf'};base64,${base64Data}`;
+      console.log(`✅ PDF file intercepted and converted to Base64 (Size: ${dataUrl.length} characters)`);
+      return NextResponse.json({ 
+        success: true, 
+        url: dataUrl 
+      });
+    }
+
+    // Upload other assets (images) to Cloudinary using a promise to handle the stream
     const uploadResult: any = await new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {

@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const LONG_FIELDS = ["description", "bio", "overview", "message", "content"];
 const ARRAY_FIELDS = ["tags", "roles"];
 const IMAGE_FIELDS = ["image", "icon", "profileImage", "logo", "thumbnail"];
-const FILE_FIELDS = ["resumeLink", "file", "document"];
+const FILE_FIELDS = ["file", "document"];
 
 export default function CrudTable({ 
   modelName, 

@@ -452,15 +452,25 @@ export default function HomePage() {
               <div className="cta-row">
                 <a href="#projects" onClick={(e) => navScrollTo(e, "projects")} className="btn btn-primary">View Projects</a>
                 {profile?.resumeLink && (
-                  <a 
-                    href={profile.resumeLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="btn btn-outline" 
-                    id="resume-btn"
-                  >
-                    Download Resume
-                  </a>
+                  profile.resumeLink === '/api/resume' ? (
+                    <button 
+                      onClick={() => setIsResumeOpen(true)} 
+                      className="btn btn-outline" 
+                      id="resume-btn"
+                    >
+                      Download Resume
+                    </button>
+                  ) : (
+                    <a 
+                      href={profile.resumeLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn btn-outline" 
+                      id="resume-btn"
+                    >
+                      Download Resume
+                    </a>
+                  )
                 )}
                 <a href="#contact" onClick={(e) => navScrollTo(e, "contact")} className="btn btn-ghost">Contact Me →</a>
               </div>
