@@ -73,6 +73,25 @@ interface Service {
   description: string;
 }
 
+interface Publication {
+  _id: string;
+  title: string;
+  journal?: string;
+  publishedDate?: string;
+  doi?: string;
+  description?: string;
+  paperLink?: string;
+}
+
+interface Patent {
+  _id: string;
+  title: string;
+  techArea?: string;
+  appNumber?: string;
+  description?: string;
+  status?: string;
+}
+
 const getSkillFill = (name: string) => {
   const n = name.toLowerCase();
   if (n.includes("python")) return 90;
@@ -142,6 +161,8 @@ export default function HomePage() {
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [publications, setPublications] = useState<Publication[]>([]);
+  const [patents, setPatents] = useState<Patent[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Modal State
@@ -181,9 +202,11 @@ export default function HomePage() {
       fetch("/api/portfolio/project").then((r) => r.json()).catch(() => []),
       fetch("/api/portfolio/certification").then((r) => r.json()).catch(() => []),
       fetch("/api/portfolio/service").then((r) => r.json()).catch(() => []),
-      fetch("/api/portfolio/skill").then((r) => r.json()).catch(() => [])
+      fetch("/api/portfolio/skill").then((r) => r.json()).catch(() => []),
+      fetch("/api/portfolio/publication").then((r) => r.json()).catch(() => []),
+      fetch("/api/portfolio/patent").then((r) => r.json()).catch(() => [])
     ])
-      .then(([profileData, eduData, expData, projData, certData, servData, skillData]) => {
+      .then(([profileData, eduData, expData, projData, certData, servData, skillData, pubData, patData]) => {
         if (Array.isArray(profileData) && profileData.length > 0) {
           setProfile(profileData[0]);
         } else if (profileData && !Array.isArray(profileData)) {
@@ -195,6 +218,8 @@ export default function HomePage() {
         if (Array.isArray(certData)) setCertifications(certData);
         if (Array.isArray(servData)) setServices(servData);
         if (Array.isArray(skillData)) setSkills(skillData);
+        if (Array.isArray(pubData)) setPublications(pubData);
+        if (Array.isArray(patData)) setPatents(patData);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -223,7 +248,7 @@ export default function HomePage() {
   useEffect(() => {
     if (loading) return;
 
-    const sections = ["home", "credentials", "projects", "experience", "education", "certifications", "services", "skills", "contact"];
+    const sections = ["home", "credentials", "projects", "experience", "education", "certifications", "publications", "patents", "services", "skills", "contact"];
     
     // Observer for Active Navigation Section
     const activeObserver = new IntersectionObserver((entries) => {
@@ -411,6 +436,8 @@ export default function HomePage() {
             <li><a href="#experience" onClick={(e) => navScrollTo(e, "experience")} className={activeSection === "experience" ? "active" : ""}>Experience</a></li>
             <li><a href="#education" onClick={(e) => navScrollTo(e, "education")} className={activeSection === "education" ? "active" : ""}>Education</a></li>
             <li><a href="#certifications" onClick={(e) => navScrollTo(e, "certifications")} className={activeSection === "certifications" ? "active" : ""}>Certifications</a></li>
+            <li><a href="#publications" onClick={(e) => navScrollTo(e, "publications")} className={activeSection === "publications" ? "active" : ""}>Publications</a></li>
+            <li><a href="#patents" onClick={(e) => navScrollTo(e, "patents")} className={activeSection === "patents" ? "active" : ""}>Patents</a></li>
             <li><a href="#services" onClick={(e) => navScrollTo(e, "services")} className={activeSection === "services" ? "active" : ""}>Services</a></li>
             <li><a href="#skills" onClick={(e) => navScrollTo(e, "skills")} className={activeSection === "skills" ? "active" : ""}>Skills</a></li>
             <li><a href="#contact" onClick={(e) => navScrollTo(e, "contact")} className={activeSection === "contact" ? "active" : ""}>Contact</a></li>
@@ -434,6 +461,8 @@ export default function HomePage() {
         <a href="#experience" onClick={(e) => navScrollTo(e, "experience")}>Experience</a>
         <a href="#education" onClick={(e) => navScrollTo(e, "education")}>Education</a>
         <a href="#certifications" onClick={(e) => navScrollTo(e, "certifications")}>Certifications</a>
+        <a href="#publications" onClick={(e) => navScrollTo(e, "publications")}>Publications</a>
+        <a href="#patents" onClick={(e) => navScrollTo(e, "patents")}>Patents</a>
         <a href="#services" onClick={(e) => navScrollTo(e, "services")}>Services</a>
         <a href="#skills" onClick={(e) => navScrollTo(e, "skills")}>Skills</a>
         <a href="#contact" onClick={(e) => navScrollTo(e, "contact")}>Contact</a>
@@ -698,6 +727,99 @@ export default function HomePage() {
                   <div className="cert-date">{cert.year}</div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ PUBLICATIONS ============ */}
+        <section id="publications" className="port-section">
+          <div className="port-container">
+            <p className="eyebrow reveal"><span className="num">§06</span> RESEARCH PUBLICATIONS</p>
+            <h2 className="section-title reveal port-h">Publications</h2>
+            <p className="section-sub reveal">Peer-reviewed and presented research.</p>
+
+            <div className="publications-list">
+              {publications.map((pub, idx) => (
+                <div key={pub._id || idx} className="pub-card reveal">
+                  <h3 className="pub-title port-h">{pub.title}</h3>
+                  <div className="pub-meta">
+                    {pub.journal && <span>Journal: {pub.journal}</span>}
+                    {pub.publishedDate && <span>Published: {pub.publishedDate}</span>}
+                    {pub.doi && <span>DOI: {pub.doi}</span>}
+                  </div>
+                  {pub.description && <p className="pub-abstract">{pub.description}</p>}
+                  {pub.paperLink && (
+                    <div className="pub-actions">
+                      <a 
+                        href={pub.paperLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-outline"
+                      >
+                        View Paper ↗
+                      </a>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {publications.length === 0 && (
+                <div className="reveal text-zinc-500 font-mono text-sm py-4">No publications records found in the system. Add them in the Admin Panel!</div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <div className="port-container"><div className="divider-line"></div></div>
+
+        {/* ============ PATENTS ============ */}
+        <section id="patents" className="section-alt port-section">
+          <div className="port-container">
+            <p className="eyebrow reveal"><span className="num">§07</span> PATENTS &amp; RIGHTS</p>
+            <h2 className="section-title reveal port-h">Patents &amp; Intellectual Property</h2>
+            <p className="section-sub reveal">Filed and pending patent applications.</p>
+
+            <div className="patents-list">
+              {patents.map((pat, idx) => (
+                <div key={pat._id || idx} className="patent-card reveal">
+                  <div className="patent-col">
+                    <div className="patent-field">
+                      <span className="patent-label">Patent Title</span>
+                      <span className="patent-value port-h font-bold">{pat.title}</span>
+                    </div>
+                    {pat.appNumber && (
+                      <div className="patent-field">
+                        <span className="patent-label">Application Number</span>
+                        <span className="patent-value font-mono text-sm">{pat.appNumber}</span>
+                      </div>
+                    )}
+                    {pat.status && (
+                      <div className="patent-field">
+                        <span className="patent-label">Status</span>
+                        <div>
+                          <span className="status-pill">{pat.status}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="patent-col">
+                    {pat.techArea && (
+                      <div className="patent-field">
+                        <span className="patent-label">Technology Area</span>
+                        <span className="patent-value">{pat.techArea}</span>
+                      </div>
+                    )}
+                    {pat.description && (
+                      <div className="patent-field">
+                        <span className="patent-label">Description</span>
+                        <span className="patent-value text-zinc-400 leading-relaxed block">{pat.description}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {patents.length === 0 && (
+                <div className="reveal text-zinc-500 font-mono text-sm py-4">No patent records found in the system. Add them in the Admin Panel!</div>
+              )}
             </div>
           </div>
         </section>

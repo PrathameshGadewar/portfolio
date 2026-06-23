@@ -72,7 +72,24 @@ const MessageSchema = new Schema({
   message: { type: String, required: true },
 }, { timestamps: true });
 
-// Force re-registration of models to ensure schema changes (like 'logo') are picked up
+const PublicationSchema = new Schema({
+  title: { type: String, required: true },
+  journal: { type: String },
+  publishedDate: { type: String },
+  doi: { type: String },
+  description: { type: String },
+  paperLink: { type: String },
+});
+
+const PatentSchema = new Schema({
+  title: { type: String, required: true },
+  techArea: { type: String },
+  appNumber: { type: String },
+  description: { type: String },
+  status: { type: String },
+});
+
+// Force re-registration of models to ensure schema changes are picked up
 if (process.env.NODE_ENV !== 'production') {
   delete mongoose.models.Profile;
   delete mongoose.models.Education;
@@ -82,6 +99,8 @@ if (process.env.NODE_ENV !== 'production') {
   delete mongoose.models.Skill;
   delete mongoose.models.Service;
   delete mongoose.models.Message;
+  delete mongoose.models.Publication;
+  delete mongoose.models.Patent;
 }
 
 export const Profile = mongoose.models.Profile || mongoose.model('Profile', ProfileSchema);
@@ -92,3 +111,5 @@ export const Project = mongoose.models.Project || mongoose.model('Project', Proj
 export const Skill = mongoose.models.Skill || mongoose.model('Skill', SkillSchema);
 export const Service = mongoose.models.Service || mongoose.model('Service', ServiceSchema);
 export const Message = mongoose.models.Message || mongoose.model('Message', MessageSchema);
+export const Publication = mongoose.models.Publication || mongoose.model('Publication', PublicationSchema);
+export const Patent = mongoose.models.Patent || mongoose.model('Patent', PatentSchema);

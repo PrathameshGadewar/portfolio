@@ -15,6 +15,8 @@ import {
   Award,
   Loader2,
   ChevronRight,
+  BookOpen,
+  FileText,
 } from "lucide-react";
 
 const navItems = [
@@ -24,6 +26,8 @@ const navItems = [
   { name: "Services", href: "/admin/service", icon: Server },
   { name: "Experience", href: "/admin/experience", icon: Code },
   { name: "Education", href: "/admin/education", icon: GraduationCap },
+  { name: "Publications", href: "/admin/publication", icon: BookOpen },
+  { name: "Patents", href: "/admin/patent", icon: FileText },
   { name: "Skills", href: "/admin/skill", icon: Code },
   { name: "Certifications", href: "/admin/certification", icon: Award },
   { name: "Messages", href: "/admin/message", icon: Mail },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, Briefcase, Server, GraduationCap, Award, Mail, TrendingUp } from "lucide-react";
+import { Users, Briefcase, Server, GraduationCap, Award, Mail, TrendingUp, BookOpen, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -13,6 +13,8 @@ interface Stats {
   certifications: number;
   messages: number;
   skills: number;
+  publications: number;
+  patents: number;
 }
 
 export default function AdminDashboard() {
@@ -24,13 +26,15 @@ export default function AdminDashboard() {
     certifications: 0,
     messages: 0,
     skills: 0,
+    publications: 0,
+    patents: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [projects, experiences, services, educations, certifications, messages, skills] =
+        const [projects, experiences, services, educations, certifications, messages, skills, publications, patents] =
           await Promise.all([
             fetch("/api/portfolio/project").then((r) => r.json()),
             fetch("/api/portfolio/experience").then((r) => r.json()),
@@ -39,6 +43,8 @@ export default function AdminDashboard() {
             fetch("/api/portfolio/certification").then((r) => r.json()),
             fetch("/api/portfolio/message").then((r) => r.json()),
             fetch("/api/portfolio/skill").then((r) => r.json()),
+            fetch("/api/portfolio/publication").then((r) => r.json()),
+            fetch("/api/portfolio/patent").then((r) => r.json()),
           ]);
 
         setStats({
@@ -49,6 +55,8 @@ export default function AdminDashboard() {
           certifications: Array.isArray(certifications) ? certifications.length : 0,
           messages: Array.isArray(messages) ? messages.length : 0,
           skills: Array.isArray(skills) ? skills.length : 0,
+          publications: Array.isArray(publications) ? publications.length : 0,
+          patents: Array.isArray(patents) ? patents.length : 0,
         });
       } catch (err) {
         console.error("Failed to load stats:", err);
@@ -64,6 +72,8 @@ export default function AdminDashboard() {
     { title: "Experience", value: stats.experiences, icon: Users, color: "bg-purple-50 text-purple-600", href: "/admin/experience" },
     { title: "Services", value: stats.services, icon: Server, color: "bg-orange-50 text-orange-600", href: "/admin/service" },
     { title: "Education", value: stats.educations, icon: GraduationCap, color: "bg-green-50 text-green-600", href: "/admin/education" },
+    { title: "Publications", value: stats.publications, icon: BookOpen, color: "bg-indigo-50 text-indigo-600", href: "/admin/publication" },
+    { title: "Patents", value: stats.patents, icon: FileText, color: "bg-rose-50 text-rose-600", href: "/admin/patent" },
     { title: "Certifications", value: stats.certifications, icon: Award, color: "bg-yellow-50 text-yellow-600", href: "/admin/certification" },
     { title: "Skills", value: stats.skills, icon: TrendingUp, color: "bg-teal-50 text-teal-600", href: "/admin/skill" },
     { title: "Messages", value: stats.messages, icon: Mail, color: "bg-red-50 text-red-600", href: "/admin/message" },
