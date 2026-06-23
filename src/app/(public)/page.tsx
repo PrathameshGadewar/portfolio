@@ -635,15 +635,24 @@ export default function HomePage() {
               {education.map((edu, idx) => (
                 <div key={edu._id || idx} className="t-item reveal">
                   <div className="t-dot"></div>
-                  <div className="t-date">{edu.startYear} — {edu.endYear}</div>
-                  <div className="t-title port-h">{edu.degree}</div>
-                  <div className="t-org">{edu.institution}</div>
-                  <div className="t-desc">{edu.specialization || "Engineering course curriculum"}</div>
-                  {edu.score && (
-                    <div className="edu-meta">
-                      <span>Score: {edu.score}</span>
+                  <div className="flex gap-5 items-start">
+                    {edu.logo && (
+                      <div className="edu-logo">
+                        <img src={edu.logo} alt={edu.institution} />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <div className="t-date">{edu.startYear} — {edu.endYear}</div>
+                      <div className="t-title port-h">{edu.degree}</div>
+                      <div className="t-org">{edu.institution}</div>
+                      <div className="t-desc">{edu.specialization || "Engineering course curriculum"}</div>
+                      {edu.score && (
+                        <div className="edu-meta">
+                          <span>Score: {edu.score}</span>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
               {education.length === 0 && (
