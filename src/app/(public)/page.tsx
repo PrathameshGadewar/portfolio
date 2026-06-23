@@ -268,6 +268,7 @@ export default function HomePage() {
 
   // Modal State
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [selectedCertImage, setSelectedCertImage] = useState<string | null>(null);
 
   // Filters State
   const [projectFilter, setProjectFilter] = useState("all");
@@ -778,8 +779,19 @@ export default function HomePage() {
 
             <div className="cert-grid" id="cert-grid">
               {filteredCerts.map((cert, idx) => (
-                <div key={cert._id || idx} className={`cert-card reveal ${(cert.year === "Featured" || idx < 2) ? "cert-featured" : ""}`}>
-                  <div className="cert-icon">{cert.year === "Featured" ? "Featured Credentials" : "Academic Credentials"}</div>
+                <div 
+                  key={cert._id || idx} 
+                  onClick={() => cert.image ? setSelectedCertImage(cert.image) : cert.link ? window.open(cert.link, "_blank") : null}
+                  className={`cert-card reveal ${(cert.year === "Featured" || idx < 2) ? "cert-featured" : ""} ${cert.image || cert.link ? "cursor-pointer transition-transform hover:scale-[1.02]" : ""}`}
+                >
+                  <div className="cert-icon flex justify-between items-center">
+                    <span>{cert.year === "Featured" ? "Featured Credentials" : "Academic Credentials"}</span>
+                    {cert.image ? (
+                      <span className="text-[10px] font-mono text-gold px-2 py-0.5 rounded border border-gold/30 bg-gold/10">View Photo 👁</span>
+                    ) : cert.link ? (
+                      <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded border border-border bg-surface">Verify Link ↗</span>
+                    ) : null}
+                  </div>
                   <h3 className="cert-title port-h">{cert.title}</h3>
                   <div className="cert-org">{cert.organization}</div>
                   <div className="cert-date">{cert.year}</div>
@@ -1034,6 +1046,31 @@ export default function HomePage() {
           resumeUrl={profile.resumeLink || ""} 
           name={profile.name} 
         />
+      )}
+
+      {/* Certificate Image Lightbox Modal */}
+      {selectedCertImage && (
+        <div 
+          className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+          onClick={() => setSelectedCertImage(null)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] bg-zinc-950 border border-zinc-850 rounded-2xl overflow-hidden p-2 flex flex-col items-center shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black text-xl z-10 font-bold"
+              onClick={() => setSelectedCertImage(null)}
+            >
+              ×
+            </button>
+            <img 
+              src={selectedCertImage} 
+              alt="Certificate Verification" 
+              className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-inner"
+            />
+            <div className="py-2 text-[11px] font-mono text-zinc-400">
+              Click overlay to close verification viewer
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
