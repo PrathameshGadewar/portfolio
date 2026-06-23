@@ -1084,7 +1084,10 @@ nav.port-nav {
 }
 
 .badge {
-  padding: 9px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
   border-radius: 999px;
   border: 1px solid var(--border);
   font-family: var(--font-mono);

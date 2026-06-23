@@ -65,6 +65,7 @@ interface Skill {
   _id: string;
   category: string;
   name: string;
+  icon?: string;
 }
 
 interface Service {
@@ -120,7 +121,7 @@ const StatCounter = ({ target }: { target: number }) => {
 };
 
 // Helper Component for Skill progress bar
-const SkillBar = ({ name, targetFill }: { name: string; targetFill: number }) => {
+const SkillBar = ({ name, targetFill, icon }: { name: string; targetFill: number; icon?: string }) => {
   const [width, setWidth] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -140,7 +141,14 @@ const SkillBar = ({ name, targetFill }: { name: string; targetFill: number }) =>
   return (
     <div ref={ref} className="skill-row">
       <div className="skill-row-top">
-        <span>{name}</span>
+        <div className="flex items-center gap-2">
+          {icon && (
+            <div className="w-5 h-5 shrink-0 rounded overflow-hidden flex items-center justify-center bg-white/5 p-0.5 border border-white/10">
+              <img src={icon} alt={name} className="w-full h-full object-contain" />
+            </div>
+          )}
+          <span>{name}</span>
+        </div>
         <span>{targetFill}%</span>
       </div>
       <div className="skill-bar-track">
@@ -862,7 +870,7 @@ export default function HomePage() {
                   <div className="skill-group reveal">
                     <div className="skill-group-title">Programming</div>
                     {skills.filter(s => s.category.toLowerCase().includes("program") || s.category.toLowerCase().includes("lang")).map((skill, idx) => (
-                      <SkillBar key={skill._id || idx} name={skill.name} targetFill={getSkillFill(skill.name)} />
+                      <SkillBar key={skill._id || idx} name={skill.name} targetFill={getSkillFill(skill.name)} icon={skill.icon} />
                     ))}
                   </div>
                 )}
@@ -872,7 +880,7 @@ export default function HomePage() {
                   <div className="skill-group reveal">
                     <div className="skill-group-title">AI &amp; ML</div>
                     {skills.filter(s => s.category.toLowerCase().includes("ai") || s.category.toLowerCase().includes("machine") || s.category.toLowerCase().includes("learning") || s.category.toLowerCase().includes("data")).map((skill, idx) => (
-                      <SkillBar key={skill._id || idx} name={skill.name} targetFill={getSkillFill(skill.name)} />
+                      <SkillBar key={skill._id || idx} name={skill.name} targetFill={getSkillFill(skill.name)} icon={skill.icon} />
                     ))}
                   </div>
                 )}
@@ -884,7 +892,14 @@ export default function HomePage() {
                   <div className="skill-group-title">Tools</div>
                   <div className="badge-cloud">
                     {skills.filter(s => !s.category.toLowerCase().includes("program") && !s.category.toLowerCase().includes("lang") && !s.category.toLowerCase().includes("ai") && !s.category.toLowerCase().includes("machine") && !s.category.toLowerCase().includes("learning") && !s.category.toLowerCase().includes("data")).map((skill, idx) => (
-                      <span key={skill._id || idx} className="badge">{skill.name}</span>
+                      <span key={skill._id || idx} className="badge">
+                        {skill.icon && (
+                          <span className="w-4 h-4 shrink-0 rounded overflow-hidden flex items-center justify-center bg-white/5 p-0.5 border border-white/10">
+                            <img src={skill.icon} alt={skill.name} className="w-full h-full object-contain" />
+                          </span>
+                        )}
+                        <span>{skill.name}</span>
+                      </span>
                     ))}
                   </div>
                 </div>
