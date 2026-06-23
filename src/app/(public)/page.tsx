@@ -719,9 +719,9 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">
               {/* Left Column: Achievements Feed */}
-              <div className="lg:col-span-1 flex flex-col h-[650px] bg-zinc-900/40 dark:bg-zinc-950/20 border border-border rounded-[14px] p-6 overflow-hidden reveal">
+              <div className="lg:col-span-1 flex flex-col h-[650px] bg-[var(--surface)] border border-border rounded-[14px] p-6 overflow-hidden reveal">
                 <div className="flex items-center justify-between mb-4 shrink-0">
-                  <h3 className="text-xl font-bold font-display text-white">Achievements Feed</h3>
+                  <h3 className="text-xl font-bold font-display text-[var(--text)]">Achievements Feed</h3>
                   <span className="text-[10px] font-mono text-gold px-2 py-0.5 rounded border border-gold/30 bg-gold/10 uppercase tracking-wider">Scroll</span>
                 </div>
                 
@@ -729,10 +729,10 @@ export default function HomePage() {
                   {achievements.map((ach, idx) => (
                     <div key={ach._id || idx} className="p-4 bg-surface/50 rounded-xl border border-border/80 flex flex-col gap-2 hover:border-gold-soft transition-colors">
                       <div className="flex items-start justify-between">
-                        <h4 className="font-bold text-sm text-white font-display leading-tight">{ach.title}</h4>
-                        {ach.year && <span className="text-[10px] font-mono text-zinc-500 whitespace-nowrap ml-2">{ach.year}</span>}
+                        <h4 className="font-bold text-sm text-[var(--text)] font-display leading-tight">{ach.title}</h4>
+                        {ach.year && <span className="text-[10px] font-mono text-[var(--text-faint)] whitespace-nowrap ml-2">{ach.year}</span>}
                       </div>
-                      {ach.description && <p className="text-[12px] text-zinc-400 leading-relaxed">{ach.description}</p>}
+                      {ach.description && <p className="text-[12px] text-[var(--text-dim)] leading-relaxed">{ach.description}</p>}
                       
                       {ach.images && ach.images.length > 0 && (
                         <div className="relative group mt-1">
@@ -807,7 +807,7 @@ export default function HomePage() {
                             <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded border border-border bg-surface">Verify Link ↗</span>
                           ) : null}
                         </div>
-                        <h3 className="cert-title port-h text-white">{cert.title}</h3>
+                        <h3 className="cert-title port-h text-[var(--text)]">{cert.title}</h3>
                         <div className="cert-org">{cert.organization}</div>
                         <div className="cert-date">{cert.year}</div>
                       </div>
