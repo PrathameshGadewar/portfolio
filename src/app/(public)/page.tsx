@@ -73,137 +73,15 @@ interface Service {
   description: string;
 }
 
-const defaultProjects: Project[] = [
-  {
-    _id: "proj-1",
-    title: "Smart Guide",
-    description: "An interactive driving-coach dashboard that analyses driver behaviour in real time and surfaces actionable coaching cues — the basis for a published research paper.",
-    tags: ["Python", "ML", "Dashboard UI"],
-    category: "AI / ML · Embedded Dashboard"
-  },
-  {
-    _id: "proj-2",
-    title: "Emotion Detection & Music Recommendation",
-    description: "Real-time facial emotion recognition paired with a recommendation engine that curates music to match detected mood.",
-    tags: ["CNN", "OpenCV", "Python"],
-    category: "AI / ML · Computer Vision"
-  },
-  {
-    _id: "proj-3",
-    title: "AI Interview Simulator",
-    description: "An AI-driven mock interview platform that asks role-specific questions, evaluates responses, and gives structured feedback.",
-    tags: ["NLP", "LLM API", "React"],
-    category: "AI / ML · NLP"
-  },
-  {
-    _id: "proj-4",
-    title: "TripZila",
-    description: "A full-featured travel discovery and booking platform with itinerary planning, listings, and a responsive booking flow.",
-    tags: ["JavaScript", "HTML/CSS", "REST API"],
-    category: "Web · Full-Stack Platform"
-  },
-  {
-    _id: "proj-5",
-    title: "AI Supply Chain Dashboard",
-    description: "A predictive analytics dashboard for supply-chain visibility — demand forecasting, bottleneck detection, and inventory insights.",
-    tags: ["Python", "Data Viz", "SQL"],
-    category: "Data · Analytics Dashboard"
-  }
-];
-
-const defaultExp: Experience[] = [
-  {
-    _id: "exp-1",
-    role: "AI Intern",
-    company: "Infosys Springboard",
-    duration: "Internship",
-    description: "Worked on applied machine learning tasks — data preprocessing, model training, and evaluation — within a structured industry internship program."
-  },
-  {
-    _id: "exp-2",
-    role: "Web Development Intern",
-    company: "—",
-    duration: "Internship",
-    description: "Built and shipped responsive front-end features, collaborated on full-stack functionality, and contributed to production-ready web applications."
-  },
-  {
-    _id: "exp-3",
-    role: "Research Project — Smart Guide",
-    company: "IIT Internship",
-    duration: "Research",
-    description: "Contributed to a research-driven internship on driver-assistance systems, culminating in a published paper and patent application."
-  },
-  {
-    _id: "exp-4",
-    role: "Innovation Council Activities",
-    company: "Institute Innovation Council",
-    duration: "Leadership",
-    description: "Organised and participated in innovation challenges, hackathons, and ideation sessions promoting student research and entrepreneurship."
-  }
-];
-
-const defaultEdu: Education[] = [
-  {
-    _id: "edu-1",
-    degree: "B.Tech, Computer Science & Engineering",
-    institution: "Lovely Professional University",
-    startYear: "2025",
-    endYear: "Present",
-    specialization: "Focused coursework in machine learning, data structures, and software engineering, alongside independent research projects."
-  },
-  {
-    _id: "edu-2",
-    degree: "Diploma in Computer Engineering",
-    institution: "G.H. Raisoni Polytechnic, Nagpur",
-    startYear: "2022",
-    endYear: "2025",
-    specialization: "Built foundations in programming, systems, and engineering practice.",
-    score: "87.89%"
-  },
-  {
-    _id: "edu-3",
-    degree: "School Education",
-    institution: "Giants English Medium School",
-    startYear: "2011",
-    endYear: "2022",
-    specialization: "Foundational schooling that shaped early interest in mathematics and computing."
-  }
-];
-
-const defaultSkills: Skill[] = [
-  { _id: "sk-1", category: "Programming", name: "Python" },
-  { _id: "sk-2", category: "Programming", name: "C++" },
-  { _id: "sk-3", category: "Programming", name: "Java" },
-  { _id: "sk-4", category: "Programming", name: "SQL" },
-  { _id: "sk-5", category: "Programming", name: "HTML / CSS / JavaScript" },
-  { _id: "sk-6", category: "AI & ML", name: "Machine Learning" },
-  { _id: "sk-7", category: "AI & ML", name: "Deep Learning" },
-  { _id: "sk-8", category: "AI & ML", name: "NLP" },
-  { _id: "sk-9", category: "AI & ML", name: "Data Science" },
-  { _id: "sk-10", category: "Tools", name: "Git" },
-  { _id: "sk-11", category: "Tools", name: "GitHub" },
-  { _id: "sk-12", category: "Tools", name: "VS Code" },
-  { _id: "sk-13", category: "Tools", name: "Jupyter" },
-  { _id: "sk-14", category: "Tools", name: "Google Colab" }
-];
-
-const defaultServices: Service[] = [
-  { _id: "srv-1", title: "AI / ML Development", description: "Designing, training, and deploying machine learning models for real-world problems." },
-  { _id: "srv-2", title: "Data Analytics", description: "Turning raw data into dashboards and insights that support real decisions." },
-  { _id: "srv-3", title: "Web Development", description: "Building responsive, production-ready web applications end to end." },
-  { _id: "srv-4", title: "Research & Innovation", description: "Framing research questions, running experiments, and writing up findings." },
-  { _id: "srv-5", title: "Technical Consulting", description: "Advising on architecture, tooling, and feasibility for AI-driven products." },
-  { _id: "srv-6", title: "UI / UX Design", description: "Designing clean, usable interfaces for technical and consumer products." }
-];
-
-const defaultCerts: Certification[] = [
-  { _id: "c-1", title: "AI Internship", organization: "Infosys Springboard", year: "Featured" },
-  { _id: "c-2", title: "Research Internship", organization: "Indian Institute of Technology (IIT)", year: "Featured" },
-  { _id: "c-3", title: "Machine Learning Specialisation", organization: "Add issuing platform", year: "Add date" },
-  { _id: "c-4", title: "Cloud Fundamentals", organization: "Add issuing platform", year: "Add date" },
-  { _id: "c-5", title: "Python / Java / C++ Certification", organization: "Add issuing platform", year: "Add date" },
-  { _id: "c-6", title: "Hackathon Achievement", organization: "Add event name", year: "Add date" }
-];
+const getSkillFill = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes("python")) return 90;
+  if (n.includes("javascript") || n.includes("css") || n.includes("html") || n.includes("react") || n.includes("next")) return 85;
+  if (n.includes("sql") || n.includes("database") || n.includes("mongo") || n.includes("postgres")) return 80;
+  if (n.includes("c++") || n.includes("java")) return 75;
+  if (n.includes("machine") || n.includes("deep") || n.includes("learning") || n.includes("ai")) return 85;
+  return 80; // default
+};
 
 // Helper Component for Stats Counter
 const StatCounter = ({ target }: { target: number }) => {
@@ -345,7 +223,7 @@ export default function HomePage() {
   useEffect(() => {
     if (loading) return;
 
-    const sections = ["home", "credentials", "projects", "experience", "education", "certifications", "publications", "patents", "services", "skills", "contact"];
+    const sections = ["home", "credentials", "projects", "experience", "education", "certifications", "services", "skills", "contact"];
     
     // Observer for Active Navigation Section
     const activeObserver = new IntersectionObserver((entries) => {
@@ -480,18 +358,10 @@ export default function HomePage() {
     }
   };
 
-  // Merging database items with static HTML layout items
-  const displayProjects = [...projects, ...defaultProjects.filter(dp => !projects.some(p => p.title.toLowerCase() === dp.title.toLowerCase()))];
-  const displayExp = [...experience, ...defaultExp.filter(de => !experience.some(e => e.role.toLowerCase() === de.role.toLowerCase()))];
-  const displayEdu = [...education, ...defaultEdu.filter(de => !education.some(e => e.degree.toLowerCase() === de.degree.toLowerCase()))];
-  const displaySkills = [...skills, ...defaultSkills.filter(ds => !skills.some(s => s.name.toLowerCase() === ds.name.toLowerCase()))];
-  const displayServices = [...services, ...defaultServices.filter(ds => !services.some(s => s.title.toLowerCase() === ds.title.toLowerCase()))];
-  const displayCerts = [...certifications, ...defaultCerts.filter(dc => !certifications.some(c => c.title.toLowerCase() === dc.title.toLowerCase()))];
-
   // Filtering projects
   const filteredProjects = projectFilter === "all"
-    ? displayProjects
-    : displayProjects.filter(p => {
+    ? projects
+    : projects.filter(p => {
         const cat = p.category?.toLowerCase() || "";
         const tagsStr = p.tags.join(" ").toLowerCase();
         return cat.includes(projectFilter) || tagsStr.includes(projectFilter);
@@ -499,8 +369,8 @@ export default function HomePage() {
 
   // Filtering certifications
   const filteredCerts = certFilter === "all"
-    ? displayCerts
-    : displayCerts.filter(c => {
+    ? certifications
+    : certifications.filter(c => {
         const details = (c.title + " " + (c.organization || "")).toLowerCase();
         if (certFilter === "ai") return details.includes("ai") || details.includes("machine learning") || details.includes("intelligence");
         if (certFilter === "cloud") return details.includes("cloud") || details.includes("aws") || details.includes("azure") || details.includes("gcp");
@@ -541,8 +411,6 @@ export default function HomePage() {
             <li><a href="#experience" onClick={(e) => navScrollTo(e, "experience")} className={activeSection === "experience" ? "active" : ""}>Experience</a></li>
             <li><a href="#education" onClick={(e) => navScrollTo(e, "education")} className={activeSection === "education" ? "active" : ""}>Education</a></li>
             <li><a href="#certifications" onClick={(e) => navScrollTo(e, "certifications")} className={activeSection === "certifications" ? "active" : ""}>Certifications</a></li>
-            <li><a href="#publications" onClick={(e) => navScrollTo(e, "publications")} className={activeSection === "publications" ? "active" : ""}>Publications</a></li>
-            <li><a href="#patents" onClick={(e) => navScrollTo(e, "patents")} className={activeSection === "patents" ? "active" : ""}>Patents</a></li>
             <li><a href="#services" onClick={(e) => navScrollTo(e, "services")} className={activeSection === "services" ? "active" : ""}>Services</a></li>
             <li><a href="#skills" onClick={(e) => navScrollTo(e, "skills")} className={activeSection === "skills" ? "active" : ""}>Skills</a></li>
             <li><a href="#contact" onClick={(e) => navScrollTo(e, "contact")} className={activeSection === "contact" ? "active" : ""}>Contact</a></li>
@@ -566,8 +434,6 @@ export default function HomePage() {
         <a href="#experience" onClick={(e) => navScrollTo(e, "experience")}>Experience</a>
         <a href="#education" onClick={(e) => navScrollTo(e, "education")}>Education</a>
         <a href="#certifications" onClick={(e) => navScrollTo(e, "certifications")}>Certifications</a>
-        <a href="#publications" onClick={(e) => navScrollTo(e, "publications")}>Publications</a>
-        <a href="#patents" onClick={(e) => navScrollTo(e, "patents")}>Patents</a>
         <a href="#services" onClick={(e) => navScrollTo(e, "services")}>Services</a>
         <a href="#skills" onClick={(e) => navScrollTo(e, "skills")}>Skills</a>
         <a href="#contact" onClick={(e) => navScrollTo(e, "contact")}>Contact</a>
@@ -695,7 +561,7 @@ export default function HomePage() {
             <p className="section-sub reveal">Internships, research, and leadership — in chronological order.</p>
 
             <div className="timeline">
-              {displayExp.map((exp, idx) => (
+              {experience.map((exp, idx) => (
                 <div key={exp._id || idx} className="t-item reveal">
                   <div className="t-dot"></div>
                   <div className="t-date">{exp.duration}</div>
@@ -704,6 +570,9 @@ export default function HomePage() {
                   <div className="t-desc">{exp.description}</div>
                 </div>
               ))}
+              {experience.length === 0 && (
+                <div className="reveal text-zinc-500 font-mono text-sm py-4">No experience entries found in the system. Add them in the Admin Panel!</div>
+              )}
             </div>
 
             <div className="stat-row">
@@ -743,7 +612,7 @@ export default function HomePage() {
             <p className="section-sub reveal">Academic record and milestones.</p>
 
             <div className="timeline">
-              {displayEdu.map((edu, idx) => (
+              {education.map((edu, idx) => (
                 <div key={edu._id || idx} className="t-item reveal">
                   <div className="t-dot"></div>
                   <div className="t-date">{edu.startYear} — {edu.endYear}</div>
@@ -757,6 +626,9 @@ export default function HomePage() {
                   )}
                 </div>
               ))}
+              {education.length === 0 && (
+                <div className="reveal text-zinc-500 font-mono text-sm py-4">No education records found in the system. Add them in the Admin Panel!</div>
+              )}
             </div>
           </div>
         </section>
@@ -803,66 +675,6 @@ export default function HomePage() {
 
         <div className="port-container"><div className="divider-line"></div></div>
 
-        {/* ============ PUBLICATIONS ============ */}
-        <section id="publications" className="section-alt port-section">
-          <div className="port-container">
-            <p className="eyebrow reveal"><span className="num">§06</span> RESEARCH PUBLICATIONS</p>
-            <h2 className="section-title reveal port-h">Publications</h2>
-            <p className="section-sub reveal">Peer-reviewed and presented research.</p>
-
-            <div className="pub-card reveal">
-              <h3 className="pub-title port-h">Smart Guide: An Interactive Driving Coach on your Dashboard</h3>
-              <div className="pub-meta">
-                <span>Journal: International Journal of Intelligent Transportation Systems</span>
-                <span>Published: Nov 2024</span>
-                <span>DOI: 10.1109/MITS.2024.10421</span>
-              </div>
-              <p className="pub-abstract">This paper presents Smart Guide, an embedded dashboard system that analyses driver behaviour in real time to deliver actionable coaching feedback, aiming to improve driving safety and habit formation through accessible, in-vehicle AI.</p>
-              <div className="pub-actions">
-                <a href="https://doi.org" target="_blank" rel="noopener noreferrer" className="btn btn-outline">View Paper ↗</a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============ PATENTS ============ */}
-        <section id="patents" className="port-section">
-          <div className="port-container">
-            <p className="eyebrow reveal"><span className="num">§07</span> PATENTS &amp; RIGHTS</p>
-            <h2 className="section-title reveal port-h">Patents &amp; Intellectual Property</h2>
-            <p className="section-sub reveal">Filed and pending patent applications.</p>
-
-            <div className="patent-card reveal">
-              <div>
-                <div className="patent-field">
-                  <div className="patent-label">Patent Title</div>
-                  <div className="patent-value">Smart Guide — Interactive Driving Coach System</div>
-                </div>
-                <div className="patent-field">
-                  <div className="patent-label">Application Number</div>
-                  <div className="patent-value">TEMP/2024/9871542</div>
-                </div>
-                <div className="patent-field">
-                  <div className="patent-label">Status</div>
-                  <div className="patent-value"><span className="status-pill">Application Filed</span></div>
-                </div>
-              </div>
-              <div>
-                <div className="patent-field">
-                  <div className="patent-label">Technology Area</div>
-                  <div className="patent-value">Embedded AI / Driver Assistance Systems</div>
-                </div>
-                <div className="patent-field">
-                  <div className="patent-label">Description</div>
-                  <div className="patent-value">An in-vehicle dashboard system that uses real-time behavioural analysis to deliver coaching feedback to drivers, aimed at improving driving safety.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="port-container"><div className="divider-line"></div></div>
-
         {/* ============ SERVICES ============ */}
         <section id="services" className="section-alt port-section">
           <div className="port-container">
@@ -871,13 +683,16 @@ export default function HomePage() {
             <p className="section-sub reveal">Where I can help — from research to shipped product.</p>
 
             <div className="service-grid">
-              {displayServices.map((service, idx) => (
+              {services.map((service, idx) => (
                 <div key={service._id || idx} className="service-card reveal">
                   <div className="service-num">{idx < 9 ? `0${idx + 1}` : idx + 1}</div>
                   <h3 className="service-title port-h">{service.title}</h3>
                   <p className="service-desc">{service.description}</p>
                 </div>
               ))}
+              {services.length === 0 && (
+                <div className="col-span-full reveal text-zinc-500 font-mono text-sm py-4">No services defined in the system. Add them in the Admin Panel!</div>
+              )}
             </div>
           </div>
         </section>
@@ -892,60 +707,41 @@ export default function HomePage() {
             <div className="skills-grid">
               <div>
                 {/* Programming Group */}
-                <div className="skill-group reveal">
-                  <div className="skill-group-title">Programming</div>
-                  {displaySkills.filter(s => s.category.toLowerCase().includes("program")).map((skill, idx) => (
-                    <SkillBar key={skill._id || idx} name={skill.name} targetFill={skill.name.toLowerCase() === "python" ? 90 : skill.name.toLowerCase().includes("javascript") || skill.name.toLowerCase().includes("css") ? 85 : skill.name.toLowerCase() === "sql" ? 80 : 70} />
-                  ))}
-                  {/* Fallback if no programming category matching */}
-                  {displaySkills.filter(s => s.category.toLowerCase().includes("program")).length === 0 && (
-                    <>
-                      <SkillBar name="Python" targetFill={90} />
-                      <SkillBar name="C++" targetFill={75} />
-                      <SkillBar name="Java" targetFill={70} />
-                      <SkillBar name="SQL" targetFill={80} />
-                      <SkillBar name="HTML / CSS / JavaScript" targetFill={85} />
-                    </>
-                  )}
-                </div>
+                {skills.filter(s => s.category.toLowerCase().includes("program") || s.category.toLowerCase().includes("lang")).length > 0 && (
+                  <div className="skill-group reveal">
+                    <div className="skill-group-title">Programming</div>
+                    {skills.filter(s => s.category.toLowerCase().includes("program") || s.category.toLowerCase().includes("lang")).map((skill, idx) => (
+                      <SkillBar key={skill._id || idx} name={skill.name} targetFill={getSkillFill(skill.name)} />
+                    ))}
+                  </div>
+                )}
 
                 {/* AI / ML Group */}
-                <div className="skill-group reveal">
-                  <div className="skill-group-title">AI &amp; ML</div>
-                  {displaySkills.filter(s => s.category.toLowerCase().includes("ai") || s.category.toLowerCase().includes("machine") || s.category.toLowerCase().includes("data")).map((skill, idx) => (
-                    <SkillBar key={skill._id || idx} name={skill.name} targetFill={skill.name.toLowerCase().includes("machine") ? 85 : skill.name.toLowerCase().includes("data") ? 80 : 75} />
-                  ))}
-                  {/* Fallback if no AI category matching */}
-                  {displaySkills.filter(s => s.category.toLowerCase().includes("ai") || s.category.toLowerCase().includes("machine") || s.category.toLowerCase().includes("data")).length === 0 && (
-                    <>
-                      <SkillBar name="Machine Learning" targetFill={85} />
-                      <SkillBar name="Deep Learning" targetFill={75} />
-                      <SkillBar name="NLP" targetFill={70} />
-                      <SkillBar name="Data Science" targetFill={80} />
-                    </>
-                  )}
-                </div>
+                {skills.filter(s => s.category.toLowerCase().includes("ai") || s.category.toLowerCase().includes("machine") || s.category.toLowerCase().includes("learning") || s.category.toLowerCase().includes("data")).length > 0 && (
+                  <div className="skill-group reveal">
+                    <div className="skill-group-title">AI &amp; ML</div>
+                    {skills.filter(s => s.category.toLowerCase().includes("ai") || s.category.toLowerCase().includes("machine") || s.category.toLowerCase().includes("learning") || s.category.toLowerCase().includes("data")).map((skill, idx) => (
+                      <SkillBar key={skill._id || idx} name={skill.name} targetFill={getSkillFill(skill.name)} />
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Tools Group */}
-              <div className="reveal">
-                <div className="skill-group-title">Tools</div>
-                <div className="badge-cloud">
-                  {displaySkills.filter(s => s.category.toLowerCase().includes("tool") || s.category.toLowerCase().includes("dev") || s.category.toLowerCase().includes("other")).map((skill, idx) => (
-                    <span key={skill._id || idx} className="badge">{skill.name}</span>
-                  ))}
-                  {displaySkills.filter(s => s.category.toLowerCase().includes("tool") || s.category.toLowerCase().includes("dev") || s.category.toLowerCase().includes("other")).length === 0 && (
-                    <>
-                      <span className="badge">Git</span>
-                      <span className="badge">GitHub</span>
-                      <span className="badge">VS Code</span>
-                      <span className="badge">Jupyter</span>
-                      <span className="badge">Google Colab</span>
-                    </>
-                  )}
+              {skills.filter(s => !s.category.toLowerCase().includes("program") && !s.category.toLowerCase().includes("lang") && !s.category.toLowerCase().includes("ai") && !s.category.toLowerCase().includes("machine") && !s.category.toLowerCase().includes("learning") && !s.category.toLowerCase().includes("data")).length > 0 && (
+                <div className="reveal">
+                  <div className="skill-group-title">Tools</div>
+                  <div className="badge-cloud">
+                    {skills.filter(s => !s.category.toLowerCase().includes("program") && !s.category.toLowerCase().includes("lang") && !s.category.toLowerCase().includes("ai") && !s.category.toLowerCase().includes("machine") && !s.category.toLowerCase().includes("learning") && !s.category.toLowerCase().includes("data")).map((skill, idx) => (
+                      <span key={skill._id || idx} className="badge">{skill.name}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
+            {skills.length === 0 && (
+              <div className="reveal text-zinc-500 font-mono text-sm py-4">No skills entered in the system. Add them in the Admin Panel!</div>
+            )}
           </div>
         </section>
 
