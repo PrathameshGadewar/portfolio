@@ -627,7 +627,6 @@ export default function HomePage() {
           <div className="port-container">
             <p className="eyebrow reveal"><span className="num">§03</span> MY JOURNEY</p>
             <h2 className="section-title reveal port-h">Experience</h2>
-            <p className="section-sub reveal">Internships, research, and leadership — in chronological order.</p>
 
             <div className="timeline">
               {experience.map((exp, idx) => (
