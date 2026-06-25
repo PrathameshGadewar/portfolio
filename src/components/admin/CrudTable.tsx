@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit2, Trash2, X, AlertCircle, RefreshCw, ExternalLink, Image as ImageIcon, Upload, Camera } from "lucide-react";
+import { Plus, Edit2, Trash2, X, AlertCircle, RefreshCw, ExternalLink, Image as ImageIcon, Upload, Camera, GripVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LONG_FIELDS = ["description", "bio", "overview", "message", "content"];
@@ -27,6 +27,59 @@ export default function CrudTable({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [isReordering, setIsReordering] = useState(false);
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", index.toString());
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = async (targetIndex: number) => {
+    if (draggedIndex === null || draggedIndex === targetIndex) {
+      setDraggedIndex(null);
+      return;
+    }
+
+    const reorderedData = [...data];
+    const [draggedItem] = reorderedData.splice(draggedIndex, 1);
+    reorderedData.splice(targetIndex, 0, draggedItem);
+
+    // Optimistically update order
+    setData(reorderedData);
+    setDraggedIndex(null);
+
+    // Skip bulk save if Profile model
+    if (modelName.toLowerCase() === "profile") return;
+
+    setIsReordering(true);
+    try {
+      const updates = reorderedData.map((item, idx) => ({
+        _id: item._id,
+        order: idx,
+      }));
+
+      const res = await fetch(`/api/portfolio/${modelName}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to save reordered list.");
+      }
+    } catch (err: any) {
+      alert("Failed to save new order: " + err.message);
+      fetchData();
+    } finally {
+      setIsReordering(false);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -249,7 +302,21 @@ export default function CrudTable({
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold capitalize text-gray-900">{modelName} Management</h1>
-          <p className="text-sm text-gray-400 mt-0.5">{data.length} record{data.length !== 1 ? "s" : ""}</p>
+          <p className="text-sm text-gray-400 mt-0.5 flex items-center gap-1.5">
+            <span>{data.length} record{data.length !== 1 ? "s" : ""}</span>
+            {modelName.toLowerCase() !== "profile" && data.length > 1 && (
+              <>
+                <span>•</span>
+                {isReordering ? (
+                  <span className="flex items-center gap-1 text-blue-600 font-semibold animate-pulse">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving order...
+                  </span>
+                ) : (
+                  <span>Drag rows to reorder</span>
+                )}
+              </>
+            )}
+          </p>
         </div>
         <button
           id={`add-${modelName.toLowerCase()}-btn`}
@@ -274,6 +341,9 @@ export default function CrudTable({
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
+                  {modelName.toLowerCase() !== "profile" && (
+                    <th className="w-10 px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider"></th>
+                  )}
                   {fields.slice(0, 3).map((field) => (
                     <th key={field} className="px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider capitalize">
                       {field}
@@ -285,62 +355,80 @@ export default function CrudTable({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {data.map((item) => (
-                  <tr key={item._id} className="hover:bg-gray-50/50 transition-colors">
-                    {fields.slice(0, 3).map((field) => {
-                      const isImage = IMAGE_FIELDS.includes(field);
-                      const val = item[field];
-                      
-                      return (
-                        <td
-                          key={field}
-                          className="px-5 py-4 text-sm text-gray-700 max-w-[220px] truncate"
-                          title={Array.isArray(val) ? val.join(", ") : val?.toString()}
-                        >
-                          {isImage && val ? (
-                            <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-100 bg-gray-50 flex items-center justify-center">
-                              <img 
-                                src={val} 
-                                alt="" 
-                                className="w-full h-full object-cover"
-                                onError={(e) => {
-                                  (e.target as any).src = "https://via.placeholder.com/40?text=?";
-                                }}
-                              />
-                            </div>
-                          ) : (
-                            Array.isArray(val)
-                              ? val.join(", ")
-                              : val?.toString() || ""
-                          )}
+                {data.map((item, idx) => {
+                  const isDragged = draggedIndex === idx;
+                  return (
+                    <tr 
+                      key={item._id} 
+                      draggable={modelName.toLowerCase() !== "profile"}
+                      onDragStart={(e) => handleDragStart(e, idx)}
+                      onDragOver={handleDragOver}
+                      onDrop={() => handleDrop(idx)}
+                      onDragEnd={() => setDraggedIndex(null)}
+                      className={`hover:bg-gray-50/50 transition-colors ${
+                        isDragged ? "opacity-30 bg-gray-100/50" : ""
+                      } ${modelName.toLowerCase() !== "profile" ? "cursor-grab active:cursor-grabbing" : ""}`}
+                    >
+                      {modelName.toLowerCase() !== "profile" && (
+                        <td className="px-5 py-4 w-10 text-gray-300 hover:text-gray-400 transition-colors">
+                          <GripVertical className="w-4 h-4 select-none pointer-events-none" />
                         </td>
-                      );
-                    })}
-                    <td className="px-5 py-4">
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => openEdit(item)}
-                          className="text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-colors"
-                          title="Edit"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(item._id)}
-                          disabled={deletingId === item._id}
-                          className="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors disabled:opacity-40"
-                          title="Delete"
-                        >
-                          {deletingId === item._id ? (
-                            <div className="w-4 h-4 border-2 border-red-300 border-t-red-500 rounded-full animate-spin" />
-                          ) : (
-                            <Trash2 className="w-4 h-4" />
-                          )}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      )}
+                      {fields.slice(0, 3).map((field) => {
+                        const isImage = IMAGE_FIELDS.includes(field);
+                        const val = item[field];
+                        
+                        return (
+                          <td
+                            key={field}
+                            className="px-5 py-4 text-sm text-gray-700 max-w-[220px] truncate"
+                            title={Array.isArray(val) ? val.join(", ") : val?.toString()}
+                          >
+                            {isImage && val ? (
+                              <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-100 bg-gray-50 flex items-center justify-center">
+                                <img 
+                                  src={val} 
+                                  alt="" 
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    (e.target as any).src = "https://via.placeholder.com/40?text=?";
+                                  }}
+                                />
+                              </div>
+                            ) : (
+                              Array.isArray(val)
+                                ? val.join(", ")
+                                : val?.toString() || ""
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td className="px-5 py-4">
+                        <div className="flex gap-1">
+                          <button
+                            onClick={() => openEdit(item)}
+                            className="text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-colors"
+                            title="Edit"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            disabled={deletingId === item._id}
+                            className="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors disabled:opacity-40"
+                            title="Delete"
+                          >
+                            {deletingId === item._id ? (
+                              <div className="w-4 h-4 border-2 border-red-300 border-t-red-500 rounded-full animate-spin" />
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

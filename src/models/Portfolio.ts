@@ -25,6 +25,7 @@ const EducationSchema = new Schema({
   link: { type: String },
   logo: { type: String },
   score: { type: String }, // CGPA or Percentage
+  order: { type: Number, default: 0 },
 });
 
 const ExperienceSchema = new Schema({
@@ -34,6 +35,7 @@ const ExperienceSchema = new Schema({
   location: { type: String },
   status: { type: String }, // 'internship', 'full-time', etc.
   description: { type: String },
+  order: { type: Number, default: 0 },
 });
 
 const CertificationSchema = new Schema({
@@ -42,6 +44,7 @@ const CertificationSchema = new Schema({
   year: { type: String },
   link: { type: String },
   image: { type: String }, // badge image
+  order: { type: Number, default: 0 },
 });
 
 const ProjectSchema = new Schema({
@@ -52,18 +55,21 @@ const ProjectSchema = new Schema({
   liveLink: { type: String },
   githubLink: { type: String },
   category: { type: String }, // 'Web', 'AI/ML', etc.
+  order: { type: Number, default: 0 },
 });
 
 const SkillSchema = new Schema({
   category: { type: String, required: true }, // 'Programming', 'Deployment'
   name: { type: String, required: true },
   icon: { type: String }, // class name or URL
+  order: { type: Number, default: 0 },
 });
 
 const ServiceSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   icon: { type: String }, // class name or URL used for lucide-react mostly mapping
+  order: { type: Number, default: 0 },
 });
 
 const MessageSchema = new Schema({
@@ -79,6 +85,7 @@ const PublicationSchema = new Schema({
   doi: { type: String },
   description: { type: String },
   paperLink: { type: String },
+  order: { type: Number, default: 0 },
 });
 
 const PatentSchema = new Schema({
@@ -87,6 +94,7 @@ const PatentSchema = new Schema({
   appNumber: { type: String },
   description: { type: String },
   status: { type: String },
+  order: { type: Number, default: 0 },
 });
 
 const AchievementSchema = new Schema({
@@ -94,6 +102,7 @@ const AchievementSchema = new Schema({
   description: { type: String },
   images: { type: [String], default: [] },
   year: { type: String },
+  order: { type: Number, default: 0 },
 });
 
 // Force re-registration of models to ensure schema changes are picked up
