@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useTheme } from "next-themes";
+import { Heart } from "lucide-react";
 import ResumeModal from "@/components/ResumeModal";
 
 interface Profile {
@@ -1079,7 +1080,11 @@ export default function HomePage() {
           </div>
           <div className="footer-bottom">
             <p>© {new Date().getFullYear()} Prathamesh. All rights reserved.</p>
-            <p>Designed for premium editorial aesthetic &amp; dark readability.</p>
+            <p className="inline-flex items-center gap-1 flex-wrap">
+              Built with
+              <Heart className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 hover:text-red-300 hover:fill-red-300 dark:hover:text-red-300 dark:hover:fill-red-300 transition-all duration-300 cursor-pointer" />
+              and lots of Chai .
+            </p>
           </div>
         </div>
       </footer>
