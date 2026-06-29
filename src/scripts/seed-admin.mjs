@@ -27,6 +27,7 @@ if (!MONGODB_URI) {
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  phone: { type: String },
 });
 
 async function main() {
@@ -44,10 +45,10 @@ async function main() {
   const existing = await User.findOne({ email: { $exists: true } });
   if (existing) {
     console.log(`🔄 Updating existing admin user...`);
-    await User.updateOne({}, { email, password: hashedPassword });
+    await User.updateOne({}, { email, password: hashedPassword, phone: '9322553779' });
   } else {
     console.log(`✨ Creating new admin user...`);
-    await User.create({ email, password: hashedPassword });
+    await User.create({ email, password: hashedPassword, phone: '9322553779' });
   }
 
   console.log('\n✅ Admin credentials updated successfully!');
