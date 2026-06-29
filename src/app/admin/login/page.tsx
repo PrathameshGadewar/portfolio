@@ -178,7 +178,7 @@ export default function AdminLoginPage() {
                   className="space-y-5"
                 >
                   <div className="text-white/60 text-xs mb-2 leading-relaxed">
-                    A One-Time Password (OTP) has been sent to your registered email and phone number.
+                    A One-Time Password (OTP) has been sent to your registered email.
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-white/60 mb-2">Verification Code</label>

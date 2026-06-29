@@ -32,12 +32,9 @@ export async function POST(req: Request) {
 
       // Trigger OTP delivery
       await sendOTPEmail(user.email, generatedOtp);
-      if (user.phone) {
-        await sendOTPSMS(user.phone, generatedOtp);
-      }
 
       return NextResponse.json({
-        message: 'Verification code sent to your registered email and phone.',
+        message: 'Verification code sent to your registered email.',
         otpRequired: true,
         success: true
       });
